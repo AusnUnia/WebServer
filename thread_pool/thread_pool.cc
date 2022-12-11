@@ -34,7 +34,10 @@ ThreadPool<T>::ThreadPool(int max_task_num, int thread_num)
 template<class T>
 ThreadPool<T>::~ThreadPool()
 {
-
+    for(int i=0;i<thread_num_;i++)
+    {
+        delete threads_[i];
+    }
 }
 
 template<class T>
@@ -64,8 +67,18 @@ void ThreadPool<T>::run()
 {
     while(1)
     {
-        std::lock_guard<std::mutex> tmp_lock_guard(task_queue_mutex_);
+        task_queue_mutex_.lock();
         if(task_queue_.empty())
+        {
+            task_queue_mutex_.unlock();
+            continue;
+        }
+
+        T* task=task_queue_.front();
+        task_queue_.pop();
+        task_queue_mutex_.unlock();
+        
+        if(!task)
         {
             continue;
         }
