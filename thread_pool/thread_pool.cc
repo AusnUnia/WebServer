@@ -44,16 +44,16 @@ ThreadPool<T>::~ThreadPool()
 template<class T>
 bool ThreadPool<T>::AddTask(T* task)
 {
-    task_list_mutex_.lock();
-    if(task_list_.size()>=max_task_num_)
+    task_queue_mutex_.lock();
+    if(task_queue_.size()>=max_task_num_)
     {
-        task_list_mutex_.unlock();
+        task_queue_mutex_.unlock();
         sem_.Signal();
-        std::cerr<<"task_list_ is full\n";
+        std::cerr<<"task_queue_ is full\n";
         return false;
     }
-    task_list_.push_back(task);
-    task_list_mutex_.unlock();
+    task_queue_.push(task);
+    task_queue_mutex_.unlock();
 
     sem_.Signal();  //告诉一个线程来新任务了
 
@@ -74,16 +74,16 @@ void ThreadPool<T>::run()
     while(1)
     {
         sem_.Wait();
-        task_list_mutex_.lock();
-        if(task_list_.empty())  //在sem_.Wait()中虽然已经判断过count_>0了，但是从sem_.Wait()到task_list_mutex_lock()并非原子操作，中途可能有其他线程插手修改了task_list_,所以必须再次检查task_list_是否为空
+        task_queue_mutex_.lock();
+        if(task_queue_.empty())  //在sem_.Wait()中虽然已经判断过count_>0了，但是从sem_.Wait()到task_queue_mutex_lock()并非原子操作，中途可能有其他线程插手修改了task_queue_,所以必须再次检查task_queue_是否为空
         {
-            task_list_mutex_.unlock();
+            task_queue_mutex_.unlock();
             continue;
         }
 
-        T* task=task_list_.front();
-        task_list_.pop_front();
-        task_list_mutex_.unlock();
+        T* task=task_queue_.front();
+        task_queue_.pop();
+        task_queue_mutex_.unlock();
         
         if(!task)
         {
