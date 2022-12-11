@@ -42,7 +42,7 @@ ThreadPool<T>::~ThreadPool()
 }
 
 template<class T>
-bool ThreadPool<T>::AddTask(T* task)
+bool ThreadPool<T>::AddTask(std::weak_ptr<T> task)
 {
     task_queue_mutex_.lock();
     if(task_queue_.size()>=max_task_num_)
@@ -81,11 +81,13 @@ void ThreadPool<T>::run()
             continue;
         }
 
-        T* task=task_queue_.front();
+        std::weak_ptr<T>& w_task=task_queue_.front();
         task_queue_.pop();
         task_queue_mutex_.unlock();
         
-        if(!task)
+        std::cout<<std::this_thread::get_id()<<"  ready sth.\n";
+        std::shared_ptr<T> sh_task=w_task.lock();
+        if(!sh_task)
         {
             continue;
         }
@@ -102,43 +104,18 @@ int main()
         
     };
     ThreadPool<task> tp(200,4);
-    task t1,t2,t3,t4,t5,t6,t7;
-    tp.AddTask(&t1);
-    tp.AddTask(&t2);
-    tp.AddTask(&t3);
-    tp.AddTask(&t4);
-    tp.AddTask(&t5);
-    tp.AddTask(&t1);
-    tp.AddTask(&t2);
-    tp.AddTask(&t1);
-    tp.AddTask(&t1);
-    tp.AddTask(&t7);
-
-    tp.AddTask(&t1);
-    tp.AddTask(&t2);
-    tp.AddTask(&t3);
-    tp.AddTask(&t4);
-    tp.AddTask(&t5);
-    tp.AddTask(&t1);
-    tp.AddTask(&t2);
-    tp.AddTask(&t1);
-    tp.AddTask(&t1);
-    tp.AddTask(&t1);
-
-    tp.AddTask(&t1);
-    tp.AddTask(&t2);
-    tp.AddTask(&t3);
-    tp.AddTask(&t4);
-    tp.AddTask(&t5);
-    tp.AddTask(&t6);
-    tp.AddTask(&t2);
-    tp.AddTask(&t5);
-    tp.AddTask(&t5);
-    tp.AddTask(&t7);
+    std::shared_ptr<task> t1(new task),t2(new task),t3(new task),t4(new task),t5(new task),t6(new task),t7(new task);
+    tp.AddTask(t1);
+    tp.AddTask(t3);
+    tp.AddTask(t2);
+    tp.AddTask(t4);
+    tp.AddTask(t4);
+    tp.AddTask(t5);
+    tp.AddTask(t7);
+    tp.AddTask(t6);
+    tp.AddTask(t2);
 
   
-
-
 
     std::this_thread::sleep_for(std::chrono::seconds(5));
     quick_exit(0);
