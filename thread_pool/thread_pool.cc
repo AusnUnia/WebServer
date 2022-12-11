@@ -1,9 +1,10 @@
 #include"thread_pool.h"
 #include<iostream>
+#include<stdlib.h>
 
 template<class T>
 ThreadPool<T>::ThreadPool()
-: max_task_num_(20), task_queue_(20), thread_num_(4), threads_(thread_num_)
+: max_task_num_(20), thread_num_(4), threads_(thread_num_)
 {
     for(int i=0;i<thread_num_;i++)
     {
@@ -43,14 +44,19 @@ ThreadPool<T>::~ThreadPool()
 template<class T>
 bool ThreadPool<T>::AddTask(T* task)
 {
-    std::lock_guard<std::mutex> guard(task_queue_mutex_);
-    if(task_queue_.size()>=max_task_num_)
+    task_list_mutex_.lock();
+    if(task_list_.size()>=max_task_num_)
     {
-        std::cerr<<"Task_queue_ is full\n";
+        task_list_mutex_.unlock();
+        sem_.Signal();
+        std::cerr<<"task_list_ is full\n";
         return false;
     }
+    task_list_.push_back(task);
+    task_list_mutex_.unlock();
 
-    task_queue_.push(task);
+    sem_.Signal();  //告诉一个线程来新任务了
+
     return true;
 }
 
@@ -67,21 +73,24 @@ void ThreadPool<T>::run()
 {
     while(1)
     {
-        task_queue_mutex_.lock();
-        if(task_queue_.empty())
+        sem_.Wait();
+        task_list_mutex_.lock();
+        if(task_list_.empty())  //在sem_.Wait()中虽然已经判断过count_>0了，但是从sem_.Wait()到task_list_mutex_lock()并非原子操作，中途可能有其他线程插手修改了task_list_,所以必须再次检查task_list_是否为空
         {
-            task_queue_mutex_.unlock();
+            task_list_mutex_.unlock();
             continue;
         }
 
-        T* task=task_queue_.front();
-        task_queue_.pop();
-        task_queue_mutex_.unlock();
+        T* task=task_list_.front();
+        task_list_.pop_front();
+        task_list_mutex_.unlock();
         
         if(!task)
         {
             continue;
         }
+        std::cout<<std::this_thread::get_id()<<"  doing sth.\n";
+
     }
 }
 
@@ -92,5 +101,46 @@ int main()
     {
         
     };
-    ThreadPool<task> tp(1,-1);
+    ThreadPool<task> tp(200,4);
+    task t1,t2,t3,t4,t5,t6,t7;
+    tp.AddTask(&t1);
+    tp.AddTask(&t2);
+    tp.AddTask(&t3);
+    tp.AddTask(&t4);
+    tp.AddTask(&t5);
+    tp.AddTask(&t1);
+    tp.AddTask(&t2);
+    tp.AddTask(&t1);
+    tp.AddTask(&t1);
+    tp.AddTask(&t7);
+
+    tp.AddTask(&t1);
+    tp.AddTask(&t2);
+    tp.AddTask(&t3);
+    tp.AddTask(&t4);
+    tp.AddTask(&t5);
+    tp.AddTask(&t1);
+    tp.AddTask(&t2);
+    tp.AddTask(&t1);
+    tp.AddTask(&t1);
+    tp.AddTask(&t1);
+
+    tp.AddTask(&t1);
+    tp.AddTask(&t2);
+    tp.AddTask(&t3);
+    tp.AddTask(&t4);
+    tp.AddTask(&t5);
+    tp.AddTask(&t6);
+    tp.AddTask(&t2);
+    tp.AddTask(&t5);
+    tp.AddTask(&t5);
+    tp.AddTask(&t7);
+
+  
+
+
+
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    quick_exit(0);
+
 }
