@@ -27,7 +27,7 @@ class ThreadPool
         int thread_num_; //线程数量
         Semaphore sem_;  //用于线程间消息传递
         std::vector<std::thread*> threads_; //装有所有线程的vector
-        std::mutex task_queue_mutex_; //用来保护task_queue_lock的互斥量
+        std::mutex task_queue_mutex_;  //用来保护task_queue_lock的互斥量
 };
 
 

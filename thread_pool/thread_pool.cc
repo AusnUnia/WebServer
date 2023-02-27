@@ -4,7 +4,7 @@
 
 template<class T>
 ThreadPool<T>::ThreadPool()
-: max_task_num_(20), thread_num_(4), threads_(thread_num_)
+: max_task_num_{20}, thread_num_{4}, threads_(thread_num_)
 {
     for(int i=0;i<thread_num_;i++)
     {
@@ -15,7 +15,7 @@ ThreadPool<T>::ThreadPool()
 
 template<class T>
 ThreadPool<T>::ThreadPool(int max_task_num, int thread_num)
-:max_task_num_(max_task_num),thread_num_(thread_num)
+:max_task_num_{max_task_num},thread_num_{thread_num}
 {
     if(thread_num_<=0||max_task_num_<=0)
     {
