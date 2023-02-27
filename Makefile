@@ -117,24 +117,48 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named server
+# Target rules for targets named test
 
 # Build rule for target.
-server: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server
-.PHONY : server
+test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
+.PHONY : test
 
 # fast build rule for target.
-server/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-.PHONY : server/fast
+test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
+
+test.o: test.cc.o
+.PHONY : test.o
+
+# target to build an object file
+test.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.o
+.PHONY : test.cc.o
+
+test.i: test.cc.i
+.PHONY : test.i
+
+# target to preprocess a source file
+test.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.i
+.PHONY : test.cc.i
+
+test.s: test.cc.s
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.s
+.PHONY : test.cc.s
 
 thread_pool/thread_pool.o: thread_pool/thread_pool.cc.o
 .PHONY : thread_pool/thread_pool.o
 
 # target to build an object file
 thread_pool/thread_pool.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.o
 .PHONY : thread_pool/thread_pool.cc.o
 
 thread_pool/thread_pool.i: thread_pool/thread_pool.cc.i
@@ -142,7 +166,7 @@ thread_pool/thread_pool.i: thread_pool/thread_pool.cc.i
 
 # target to preprocess a source file
 thread_pool/thread_pool.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.i
 .PHONY : thread_pool/thread_pool.cc.i
 
 thread_pool/thread_pool.s: thread_pool/thread_pool.cc.s
@@ -150,7 +174,7 @@ thread_pool/thread_pool.s: thread_pool/thread_pool.cc.s
 
 # target to generate assembly for a file
 thread_pool/thread_pool.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.s
 .PHONY : thread_pool/thread_pool.cc.s
 
 # Help Target
@@ -161,7 +185,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... server"
+	@echo "... test"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 	@echo "... thread_pool/thread_pool.o"
 	@echo "... thread_pool/thread_pool.i"
 	@echo "... thread_pool/thread_pool.s"

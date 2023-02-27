@@ -91,33 +91,9 @@ void ThreadPool<T>::Run()
         {
             continue;
         }
+        shared_ptr_task->Process();
+        
         std::cout<<std::this_thread::get_id()<<"  doing sth.\n";
 
     }
-}
-
-
-int main()
-{
-    class task
-    {
-        
-    };
-    ThreadPool<task> tp(200,4);
-    std::shared_ptr<task> t1(new task),t2(new task),t3(new task),t4(new task),t5(new task),t6(new task),t7(new task);
-    tp.AddTask(t1);
-    tp.AddTask(t3);
-    tp.AddTask(t2);
-    tp.AddTask(t4);
-    tp.AddTask(t4);
-    tp.AddTask(t5);
-    tp.AddTask(t7);
-    tp.AddTask(t6);
-    tp.AddTask(t2);
-
-  
-
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    quick_exit(0);
-
 }
