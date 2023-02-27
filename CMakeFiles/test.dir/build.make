@@ -69,47 +69,31 @@ include CMakeFiles/test.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test.dir/flags.make
 
-CMakeFiles/test.dir/thread_pool/thread_pool.cc.o: CMakeFiles/test.dir/flags.make
-CMakeFiles/test.dir/thread_pool/thread_pool.cc.o: thread_pool/thread_pool.cc
-CMakeFiles/test.dir/thread_pool/thread_pool.cc.o: CMakeFiles/test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/thread_pool/thread_pool.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.dir/thread_pool/thread_pool.cc.o -MF CMakeFiles/test.dir/thread_pool/thread_pool.cc.o.d -o CMakeFiles/test.dir/thread_pool/thread_pool.cc.o -c /home/ausn/Desktop/Server/thread_pool/thread_pool.cc
+CMakeFiles/test.dir/test.cpp.o: CMakeFiles/test.dir/flags.make
+CMakeFiles/test.dir/test.cpp.o: test.cpp
+CMakeFiles/test.dir/test.cpp.o: CMakeFiles/test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test.dir/test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.dir/test.cpp.o -MF CMakeFiles/test.dir/test.cpp.o.d -o CMakeFiles/test.dir/test.cpp.o -c /home/ausn/Desktop/Server/test.cpp
 
-CMakeFiles/test.dir/thread_pool/thread_pool.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/thread_pool/thread_pool.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ausn/Desktop/Server/thread_pool/thread_pool.cc > CMakeFiles/test.dir/thread_pool/thread_pool.cc.i
+CMakeFiles/test.dir/test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ausn/Desktop/Server/test.cpp > CMakeFiles/test.dir/test.cpp.i
 
-CMakeFiles/test.dir/thread_pool/thread_pool.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/thread_pool/thread_pool.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ausn/Desktop/Server/thread_pool/thread_pool.cc -o CMakeFiles/test.dir/thread_pool/thread_pool.cc.s
-
-CMakeFiles/test.dir/test.cc.o: CMakeFiles/test.dir/flags.make
-CMakeFiles/test.dir/test.cc.o: test.cc
-CMakeFiles/test.dir/test.cc.o: CMakeFiles/test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/test.dir/test.cc.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test.dir/test.cc.o -MF CMakeFiles/test.dir/test.cc.o.d -o CMakeFiles/test.dir/test.cc.o -c /home/ausn/Desktop/Server/test.cc
-
-CMakeFiles/test.dir/test.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test.dir/test.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ausn/Desktop/Server/test.cc > CMakeFiles/test.dir/test.cc.i
-
-CMakeFiles/test.dir/test.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/test.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ausn/Desktop/Server/test.cc -o CMakeFiles/test.dir/test.cc.s
+CMakeFiles/test.dir/test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test.dir/test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ausn/Desktop/Server/test.cpp -o CMakeFiles/test.dir/test.cpp.s
 
 # Object files for target test
 test_OBJECTS = \
-"CMakeFiles/test.dir/thread_pool/thread_pool.cc.o" \
-"CMakeFiles/test.dir/test.cc.o"
+"CMakeFiles/test.dir/test.cpp.o"
 
 # External object files for target test
 test_EXTERNAL_OBJECTS =
 
-test: CMakeFiles/test.dir/thread_pool/thread_pool.cc.o
-test: CMakeFiles/test.dir/test.cc.o
+test: CMakeFiles/test.dir/test.cpp.o
 test: CMakeFiles/test.dir/build.make
 test: CMakeFiles/test.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable test"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

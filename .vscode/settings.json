@@ -46,6 +46,11 @@
         "bit": "cpp",
         "map": "cpp",
         "memory": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstring": "cpp",
+        "unordered_map": "cpp",
+        "functional": "cpp"
     }
 }

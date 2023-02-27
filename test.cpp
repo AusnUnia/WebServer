@@ -1,11 +1,11 @@
-#include "thread_pool/thread_pool.h"
-
 #include <string>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <iostream>
+
+#include "thread_pool/thread_pool.h"
 
 class Task
 {
@@ -56,15 +56,17 @@ int main()
 
     server_sock=socket(PF_INET,SOCK_STREAM,0);
     server_addr.sin_addr.s_addr=htonl(INADDR_ANY);
-    server_addr.sin_port=htons(8003);
+    server_addr.sin_port=htons(9190);
     server_addr.sin_family=AF_INET;
+
+    std::cout<<server_sock<<std::endl;
 
     if( bind(server_sock,(struct sockaddr*)&server_addr,sizeof(server_addr))==-1 )
     {
         std::cout<<"bind errer!"<<std::endl;
     }
 
-    if(listen(server_sock,100)==-1)
+    if(listen(server_sock,20)==-1)
     {
         std::cout<<"lsiten errer!"<<std::endl;
     }
@@ -73,10 +75,13 @@ int main()
 
     while(true)
     {
+        std::cout<<"listenning..."<<std::endl;
         socklen_t client_addr_size=sizeof(client_addr);
         client_sock=accept(server_sock,(struct sockaddr*)&client_addr,&client_addr_size);
+
+        std::cout<<client_sock<<std::endl;
         
-        std::cout<<"connection request : "+ntohs(client_addr.sin_port)<<std::endl;
+        std::cout<<"connection request : "<<ntohs(client_addr.sin_port)<<std::endl;
 
         std::shared_ptr<Task> tsk {std::make_shared<Task>(client_sock)};
 

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/test.dir/thread_pool/thread_pool.cc.o CMakeFiles/test.dir/test.cc.o -o test 
+/usr/bin/c++ CMakeFiles/test.dir/test.cpp.o -o test 

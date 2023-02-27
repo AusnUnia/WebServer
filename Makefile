@@ -129,53 +129,29 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
-test.o: test.cc.o
+test.o: test.cpp.o
 .PHONY : test.o
 
 # target to build an object file
-test.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.o
-.PHONY : test.cc.o
+test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
+.PHONY : test.cpp.o
 
-test.i: test.cc.i
+test.i: test.cpp.i
 .PHONY : test.i
 
 # target to preprocess a source file
-test.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.i
-.PHONY : test.cc.i
+test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
+.PHONY : test.cpp.i
 
-test.s: test.cc.s
+test.s: test.cpp.s
 .PHONY : test.s
 
 # target to generate assembly for a file
-test.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cc.s
-.PHONY : test.cc.s
-
-thread_pool/thread_pool.o: thread_pool/thread_pool.cc.o
-.PHONY : thread_pool/thread_pool.o
-
-# target to build an object file
-thread_pool/thread_pool.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.o
-.PHONY : thread_pool/thread_pool.cc.o
-
-thread_pool/thread_pool.i: thread_pool/thread_pool.cc.i
-.PHONY : thread_pool/thread_pool.i
-
-# target to preprocess a source file
-thread_pool/thread_pool.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.i
-.PHONY : thread_pool/thread_pool.cc.i
-
-thread_pool/thread_pool.s: thread_pool/thread_pool.cc.s
-.PHONY : thread_pool/thread_pool.s
-
-# target to generate assembly for a file
-thread_pool/thread_pool.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/thread_pool/thread_pool.cc.s
-.PHONY : thread_pool/thread_pool.cc.s
+test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -189,9 +165,6 @@ help:
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"
-	@echo "... thread_pool/thread_pool.o"
-	@echo "... thread_pool/thread_pool.i"
-	@echo "... thread_pool/thread_pool.s"
 .PHONY : help
 
 
