@@ -129,29 +129,29 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
-thread_pool/thread_pool.o: thread_pool/thread_pool.cpp.o
+thread_pool/thread_pool.o: thread_pool/thread_pool.cc.o
 .PHONY : thread_pool/thread_pool.o
 
 # target to build an object file
-thread_pool/thread_pool.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o
-.PHONY : thread_pool/thread_pool.cpp.o
+thread_pool/thread_pool.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.o
+.PHONY : thread_pool/thread_pool.cc.o
 
-thread_pool/thread_pool.i: thread_pool/thread_pool.cpp.i
+thread_pool/thread_pool.i: thread_pool/thread_pool.cc.i
 .PHONY : thread_pool/thread_pool.i
 
 # target to preprocess a source file
-thread_pool/thread_pool.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cpp.i
-.PHONY : thread_pool/thread_pool.cpp.i
+thread_pool/thread_pool.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.i
+.PHONY : thread_pool/thread_pool.cc.i
 
-thread_pool/thread_pool.s: thread_pool/thread_pool.cpp.s
+thread_pool/thread_pool.s: thread_pool/thread_pool.cc.s
 .PHONY : thread_pool/thread_pool.s
 
 # target to generate assembly for a file
-thread_pool/thread_pool.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cpp.s
-.PHONY : thread_pool/thread_pool.cpp.s
+thread_pool/thread_pool.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/thread_pool/thread_pool.cc.s
+.PHONY : thread_pool/thread_pool.cc.s
 
 # Help Target
 help:

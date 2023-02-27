@@ -64,12 +64,12 @@ bool ThreadPool<T>::AddTask(std::weak_ptr<T> task)
 template<class T>
 ThreadPool<T>* ThreadPool<T>::worker_thread_entry_(ThreadPool<T>* this_of_thread_pool)
 {
-    this_of_thread_pool->run();
+    this_of_thread_pool->Run();
     return this_of_thread_pool;
 }
 
 template<class T>
-void ThreadPool<T>::run()
+void ThreadPool<T>::Run()
 {
     while(1)
     {
@@ -81,13 +81,13 @@ void ThreadPool<T>::run()
             continue;
         }
 
-        std::weak_ptr<T>& w_task=task_queue_.front();
+        std::weak_ptr<T>& weak_ptr_task=task_queue_.front(); //取出队列最前面的任务
         task_queue_.pop();
-        task_queue_mutex_.unlock();
+        task_queue_mutex_.unlock(); 
         
         std::cout<<std::this_thread::get_id()<<"  ready sth.\n";
-        std::shared_ptr<T> sh_task=w_task.lock();
-        if(!sh_task)
+        std::shared_ptr<T> shared_ptr_task=weak_ptr_task.lock();
+        if(!shared_ptr_task)
         {
             continue;
         }

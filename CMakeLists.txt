@@ -2,4 +2,4 @@ cmake_minimum_required(VERSION 3.10)
 
 project(server)
 
-add_executable(server ./thread_pool/thread_pool.cpp)
+add_executable(server ./thread_pool/thread_pool.cc)

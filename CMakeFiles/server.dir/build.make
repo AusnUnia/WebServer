@@ -69,28 +69,28 @@ include CMakeFiles/server.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/server.dir/flags.make
 
-CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o: CMakeFiles/server.dir/flags.make
-CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o: thread_pool/thread_pool.cpp
-CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o: CMakeFiles/server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o -MF CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o.d -o CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o -c /home/ausn/Desktop/Server/thread_pool/thread_pool.cpp
+CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: CMakeFiles/server.dir/flags.make
+CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: thread_pool/thread_pool.cc
+CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: CMakeFiles/server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/server.dir/thread_pool/thread_pool.cc.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/server.dir/thread_pool/thread_pool.cc.o -MF CMakeFiles/server.dir/thread_pool/thread_pool.cc.o.d -o CMakeFiles/server.dir/thread_pool/thread_pool.cc.o -c /home/ausn/Desktop/Server/thread_pool/thread_pool.cc
 
-CMakeFiles/server.dir/thread_pool/thread_pool.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/thread_pool/thread_pool.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ausn/Desktop/Server/thread_pool/thread_pool.cpp > CMakeFiles/server.dir/thread_pool/thread_pool.cpp.i
+CMakeFiles/server.dir/thread_pool/thread_pool.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/server.dir/thread_pool/thread_pool.cc.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ausn/Desktop/Server/thread_pool/thread_pool.cc > CMakeFiles/server.dir/thread_pool/thread_pool.cc.i
 
-CMakeFiles/server.dir/thread_pool/thread_pool.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/thread_pool/thread_pool.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ausn/Desktop/Server/thread_pool/thread_pool.cpp -o CMakeFiles/server.dir/thread_pool/thread_pool.cpp.s
+CMakeFiles/server.dir/thread_pool/thread_pool.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/server.dir/thread_pool/thread_pool.cc.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ausn/Desktop/Server/thread_pool/thread_pool.cc -o CMakeFiles/server.dir/thread_pool/thread_pool.cc.s
 
 # Object files for target server
 server_OBJECTS = \
-"CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o"
+"CMakeFiles/server.dir/thread_pool/thread_pool.cc.o"
 
 # External object files for target server
 server_EXTERNAL_OBJECTS =
 
-server: CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o
+server: CMakeFiles/server.dir/thread_pool/thread_pool.cc.o
 server: CMakeFiles/server.dir/build.make
 server: CMakeFiles/server.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ausn/Desktop/Server/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable server"

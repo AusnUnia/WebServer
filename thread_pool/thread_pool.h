@@ -20,7 +20,7 @@ class ThreadPool
         bool AddTask(std::weak_ptr<T> task);
     private:
         static ThreadPool<T>* worker_thread_entry_(ThreadPool<T>*); //worker线程的入口函数，必须申明为static，因为初始化的时候就会调用该函数。
-        void run();
+        void Run();
     private:
         int max_task_num_; //task_queue_中能存在的最大任务数量
         std::queue< std::weak_ptr<T> > task_queue_; //等待被线程执行的任务队列,用weak_ptr管理任务，避免该处影响到任务本身的生命周期。
