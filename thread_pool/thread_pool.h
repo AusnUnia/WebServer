@@ -85,7 +85,7 @@ bool ThreadPool<T>::AddTask(std::weak_ptr<T> task)
         std::cerr<<"task_list_ is full\n";
         return false;
     }
-    task_list_.push(task);
+    task_list_.push_back(task);
     task_list_mutex_.unlock();
 
     sem_.Signal();  //告诉一个线程来新任务了
@@ -115,7 +115,7 @@ void ThreadPool<T>::Run()
         }
 
         std::weak_ptr<T>& weak_ptr_task=task_list_.front(); //取出队列最前面的任务
-        task_list_.pop();
+        task_list_.pop_front();
         task_list_mutex_.unlock(); 
         
         std::cout<<std::this_thread::get_id()<<"  ready sth.\n";
