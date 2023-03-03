@@ -2,7 +2,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: \
  /home/ausn/Desktop/Server/thread_pool/thread_pool.cc \
  /usr/include/stdc-predef.h \
  /home/ausn/Desktop/Server/thread_pool/thread_pool.h \
- /usr/include/c++/12/queue /usr/include/c++/12/deque \
+ /usr/include/c++/12/list /usr/include/c++/12/deque \
  /usr/include/c++/12/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -50,7 +50,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: \
  /usr/include/c++/12/bits/functional_hash.h \
  /usr/include/c++/12/bits/hash_bytes.h \
  /usr/include/c++/12/bits/vector.tcc /usr/include/c++/12/bits/stl_heap.h \
- /usr/include/c++/12/bits/stl_queue.h \
+ /usr/include/c++/12/bits/stl_list.h \
  /usr/include/c++/12/bits/uses_allocator.h /usr/include/c++/12/thread \
  /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/iosfwd \
  /usr/include/c++/12/bits/stringfwd.h /usr/include/c++/12/bits/postypes.h \

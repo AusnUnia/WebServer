@@ -3,7 +3,7 @@
 
 #include <mysql/mysql.h>
 #include <string>
-#include <queue>
+#include <list>
 #include <memory>
 #include <atomic>
 
@@ -12,11 +12,15 @@
 class MysqlConnectionPool
 {
 public:
-    static std::unique_ptr<MysqlConnectionPool> GetInstance(); //获取一个单例子
+	std::shared_ptr<MYSQL> GetConnection();				 //获取数据库连接
+	bool ReleaseConnection(std::shared_ptr<MYSQL> conn); //释放连接
+	int get_free_connection_num();					 //获取连接
+	void DestroyPool();					 //销毁所有连接
+
+
+    static std::unique_ptr<MysqlConnectionPool> GetInstance(); //获取一个单例
 
     void Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log);
-    
-    void Destroy();
 
 private:
     MysqlConnectionPool();
@@ -25,8 +29,8 @@ private:
 	int max_connection_num_;  //最大连接数
 	std::atomic<int> busy_connection_num_{0};  //当前已使用的连接数
 	std::atomic<int> free_connection_num_{0}; //当前空闲的连接数
-	std::mutex connection_queue_mutex_; //
-	std::queue<MYSQL*> connection_queue_; //连接池
+	std::mutex connection_list_mutex_; //保护connection_list_的互斥量
+	std::list<std::shared_ptr<MYSQL>> connection_list_; //连接池
 	Semaphore sem_;  //用于线程间消息传递
 
 public:

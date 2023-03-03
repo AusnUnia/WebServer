@@ -4,7 +4,7 @@
 CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: thread_pool/thread_pool.cc \
   /usr/include/stdc-predef.h \
   thread_pool/thread_pool.h \
-  /usr/include/c++/12/queue \
+  /usr/include/c++/12/list \
   /usr/include/c++/12/deque \
   /usr/include/c++/12/bits/stl_algobase.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
@@ -61,7 +61,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: thread_pool/thread_pool.cc \
   /usr/include/c++/12/bits/hash_bytes.h \
   /usr/include/c++/12/bits/vector.tcc \
   /usr/include/c++/12/bits/stl_heap.h \
-  /usr/include/c++/12/bits/stl_queue.h \
+  /usr/include/c++/12/bits/stl_list.h \
   /usr/include/c++/12/bits/uses_allocator.h \
   /usr/include/c++/12/thread \
   /usr/include/c++/12/bits/std_thread.h \
@@ -435,7 +435,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cc.o: thread_pool/thread_pool.cc \
 
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
-/usr/include/c++/12/queue:
+/usr/include/c++/12/list:
 
 /usr/include/c++/12/mutex:
 
@@ -511,7 +511,7 @@ thread_pool/thread_pool.h:
 
 /usr/include/c++/12/backward/auto_ptr.h:
 
-/usr/include/c++/12/bits/stl_queue.h:
+/usr/include/c++/12/bits/stl_list.h:
 
 /usr/include/sched.h:
 

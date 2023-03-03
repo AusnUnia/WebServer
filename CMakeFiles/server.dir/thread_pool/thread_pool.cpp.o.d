@@ -2,7 +2,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o: \
  /home/ausn/Desktop/Server/thread_pool/thread_pool.cpp \
  /usr/include/stdc-predef.h \
  /home/ausn/Desktop/Server/thread_pool/thread_pool.h \
- /usr/include/c++/11/queue /usr/include/c++/11/deque \
+ /usr/include/c++/11/list /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -49,7 +49,7 @@ CMakeFiles/server.dir/thread_pool/thread_pool.cpp.o: \
  /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/bits/stl_heap.h \
  /usr/include/c++/11/bits/stl_function.h \
  /usr/include/c++/11/backward/binders.h \
- /usr/include/c++/11/bits/stl_queue.h \
+ /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/uses_allocator.h /usr/include/c++/11/thread \
  /usr/include/c++/11/bits/std_thread.h /usr/include/c++/11/exception \
  /usr/include/c++/11/bits/exception_ptr.h \
