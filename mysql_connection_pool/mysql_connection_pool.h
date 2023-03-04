@@ -7,7 +7,7 @@
 #include <memory>
 #include <atomic>
 
-#include "lock/my_semaphore.h"
+#include "../lock/my_semaphore.h"
 
 class MysqlConnectionPool
 {
@@ -22,9 +22,10 @@ public:
 
     void Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log);
 
-private:
-    MysqlConnectionPool();
+	MysqlConnectionPool();
     ~MysqlConnectionPool();
+
+private:
 
 	int max_connection_num_;  //最大连接数
 	std::atomic<int> busy_connection_num_{0};  //当前已使用的连接数

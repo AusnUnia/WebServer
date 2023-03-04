@@ -129,6 +129,30 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
+mysql_connection_pool/mysql_connection_pool.o: mysql_connection_pool/mysql_connection_pool.cpp.o
+.PHONY : mysql_connection_pool/mysql_connection_pool.o
+
+# target to build an object file
+mysql_connection_pool/mysql_connection_pool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o
+.PHONY : mysql_connection_pool/mysql_connection_pool.cpp.o
+
+mysql_connection_pool/mysql_connection_pool.i: mysql_connection_pool/mysql_connection_pool.cpp.i
+.PHONY : mysql_connection_pool/mysql_connection_pool.i
+
+# target to preprocess a source file
+mysql_connection_pool/mysql_connection_pool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.i
+.PHONY : mysql_connection_pool/mysql_connection_pool.cpp.i
+
+mysql_connection_pool/mysql_connection_pool.s: mysql_connection_pool/mysql_connection_pool.cpp.s
+.PHONY : mysql_connection_pool/mysql_connection_pool.s
+
+# target to generate assembly for a file
+mysql_connection_pool/mysql_connection_pool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.s
+.PHONY : mysql_connection_pool/mysql_connection_pool.cpp.s
+
 test.o: test.cpp.o
 .PHONY : test.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... mysql_connection_pool/mysql_connection_pool.o"
+	@echo "... mysql_connection_pool/mysql_connection_pool.i"
+	@echo "... mysql_connection_pool/mysql_connection_pool.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

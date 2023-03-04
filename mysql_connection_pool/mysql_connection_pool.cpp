@@ -1,4 +1,4 @@
-#include "mysql_connection_pool/mysql_connection_pool.h"
+#include "mysql_connection_pool.h"
 
 #include <iostream>
 
@@ -68,12 +68,16 @@ MysqlConnectionPool::MysqlConnectionPool()
 	
 }
 
-
+MysqlConnectionPool::~MysqlConnectionPool()
+{
+	DestroyPool();
+}
 
 std::unique_ptr<MysqlConnectionPool> MysqlConnectionPool::GetInstance()
 {
-    static MysqlConnectionPool ret;
-    return std::make_unique<MysqlConnectionPool> (&ret);
+    static MysqlConnectionPool instance_pool;
+	std::unique_ptr<MysqlConnectionPool> ret_ptr(&instance_pool);
+    return ret_ptr;
 }
 
 void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log)

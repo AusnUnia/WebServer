@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "thread_pool/thread_pool.h"
+#include "mysql_connection_pool/mysql_connection_pool.h"
 
 class Task
 {
@@ -49,6 +50,9 @@ class Task
 
 int main()
 {
+    
+    std::unique_ptr<MysqlConnectionPool> unique(MysqlConnectionPool::GetInstance());
+    
     int server_sock=0;
     int client_sock=0;
 
