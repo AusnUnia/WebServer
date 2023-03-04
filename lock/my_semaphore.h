@@ -31,7 +31,7 @@ class Semaphore
             count_--;
         }
 
-        void set_count(int count)
+        void set_count(int count) //不是很安全
         {
             count_=count;
         }

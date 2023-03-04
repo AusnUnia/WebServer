@@ -176,30 +176,29 @@ CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc \
  /home/ausn/Desktop/Server/thread_pool/thread_pool.h \
- /usr/include/c++/12/list /usr/include/c++/12/deque \
- /usr/include/c++/12/bits/stl_uninitialized.h \
- /usr/include/c++/12/bits/stl_deque.h /usr/include/c++/12/bits/deque.tcc \
- /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_vector.h \
- /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc /usr/include/c++/12/bits/stl_heap.h \
- /usr/include/c++/12/bits/stl_list.h \
- /usr/include/c++/12/bits/uses_allocator.h /usr/include/c++/12/thread \
+ /usr/include/c++/12/list /usr/include/c++/12/bits/stl_list.h \
+ /usr/include/c++/12/bits/allocated_ptr.h \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/bits/list.tcc /usr/include/c++/12/thread \
  /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/tuple \
+ /usr/include/c++/12/bits/uses_allocator.h \
  /usr/include/c++/12/bits/unique_ptr.h \
  /usr/include/c++/12/bits/this_thread_sleep.h \
  /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
  /usr/include/c++/12/limits /usr/include/c++/12/ctime \
  /usr/include/c++/12/bits/parse_numbers.h /usr/include/c++/12/mutex \
  /usr/include/c++/12/bits/std_mutex.h \
- /usr/include/c++/12/bits/unique_lock.h \
+ /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/vector \
+ /usr/include/c++/12/bits/stl_uninitialized.h \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/vector.tcc \
  /home/ausn/Desktop/Server/thread_pool/../lock/my_semaphore.h \
  /usr/include/c++/12/memory /usr/include/c++/12/bits/stl_tempbuf.h \
  /usr/include/c++/12/bits/stl_raw_storage_iter.h \
  /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
  /usr/include/c++/12/bits/shared_ptr.h \
  /usr/include/c++/12/bits/shared_ptr_base.h \
- /usr/include/c++/12/bits/allocated_ptr.h \
- /usr/include/c++/12/ext/aligned_buffer.h \
  /usr/include/c++/12/ext/concurrence.h \
  /usr/include/c++/12/bits/shared_ptr_atomic.h \
  /usr/include/c++/12/bits/atomic_base.h \

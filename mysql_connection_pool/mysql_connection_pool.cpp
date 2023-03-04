@@ -22,13 +22,13 @@ bool MysqlConnectionPool::ReleaseConnection(std::shared_ptr<MYSQL> sh_conn)
 		return false;
 	}
 
-	connection_list_mutex_.lock();
+	std::unique_lock<std::mutex> connection_list_unique_lock(connection_list_mutex_);
 
 	connection_list_.push_back(sh_conn);
 	free_connection_num_++;
 	busy_connection_num_--;
 
-	connection_list_mutex_.unlock();
+	connection_list_unique_lock.unlock();
 
 	sem_.Signal();
 

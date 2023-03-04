@@ -27,7 +27,7 @@ class ThreadPool
         int thread_num_; //线程数量
         Semaphore sem_;  //用于线程间消息传递
         std::vector<std::thread*> threads_; //装有所有线程的vector
-        std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量
+        std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量,必须通过unique_lock或lock_guard来管理使用。
 };
 
 
@@ -107,16 +107,16 @@ void ThreadPool<T>::Run()
     while(1)
     {
         sem_.Wait();
-        task_list_mutex_.lock();
+        std::unique_lock<std::mutex> task_list_unique_lock(task_list_mutex_);
         if(task_list_.empty())  //在sem_.Wait()中虽然已经判断过count_>0了，但是从sem_.Wait()到task_list_mutex_lock()并非原子操作，中途可能有其他线程插手修改了task_list_,所以必须再次检查task_list_是否为空
         {
-            task_list_mutex_.unlock();
+            task_list_unique_lock.unlock();
             continue;
         }
 
         std::weak_ptr<T>& weak_ptr_task=task_list_.front(); //取出队列最前面的任务
         task_list_.pop_front();
-        task_list_mutex_.unlock(); 
+        task_list_unique_lock.unlock(); 
         
         std::cout<<std::this_thread::get_id()<<"  ready sth.\n";
         std::shared_ptr<T> shared_ptr_task=weak_ptr_task.lock();
