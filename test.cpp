@@ -51,7 +51,7 @@ class Task
 int main()
 {
     
-    std::unique_ptr<MysqlConnectionPool> unique(MysqlConnectionPool::GetInstance());
+    std::unique_ptr<MysqlConnectionPool> unique{MysqlConnectionPool::GetInstance()};
     
     int server_sock=0;
     int client_sock=0;
@@ -74,6 +74,7 @@ int main()
     {
         std::cout<<"lsiten errer!"<<std::endl;
     }
+
 
     ThreadPool<Task> pool;
 
