@@ -30,9 +30,9 @@ private:
 	int max_connection_num_;  //最大连接数
 	std::atomic<int> busy_connection_num_{0};  //当前已使用的连接数
 	std::atomic<int> free_connection_num_{0}; //当前空闲的连接数
-	std::mutex connection_list_mutex_; //保护connection_list_的互斥量,必须通过unique_lock或lock_guard来管理使用。
+	mutable std::mutex connection_list_mutex_; //保护connection_list_的互斥量,必须通过unique_lock或lock_guard来管理使用。
 	std::list<std::shared_ptr<MYSQL>> connection_list_; //连接池
-	Semaphore sem_;  //用于线程间消息传递
+	mutable Semaphore sem_;  //用于线程间消息传递
 
 public:
 	std::string url_;			 //主机地址

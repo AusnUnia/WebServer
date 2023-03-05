@@ -25,9 +25,9 @@ class ThreadPool
         int max_task_num_; //task_list_中能存在的最大任务数量
         std::list< std::weak_ptr<T> > task_list_; //等待被线程执行的任务队列,用weak_ptr管理任务，避免该处影响到任务本身的生命周期。
         int thread_num_; //线程数量
-        Semaphore sem_;  //用于线程间消息传递
-        std::vector<std::thread*> threads_; //装有所有线程的vector
-        std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量,必须通过unique_lock或lock_guard来管理使用。
+        mutable Semaphore sem_;  //用于线程间消息传递
+        std::vector<std::unique_ptr<std::thread>> threads_; //装有所有线程的vector
+        mutable std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量,必须通过unique_lock或lock_guard来管理使用。
 };
 
 
@@ -37,11 +37,11 @@ class ThreadPool
 
 template<class T>
 ThreadPool<T>::ThreadPool()
-: max_task_num_{10}, thread_num_{2}, threads_(thread_num_)
+: max_task_num_{10}, thread_num_{4}, threads_(thread_num_)
 {
     for(int i=0;i<thread_num_;i++)
     {
-        threads_[i]=new std::thread(worker_thread_entry_,this);
+        threads_[i]=std::move( std::make_unique<std::thread>(worker_thread_entry_,this) );
         threads_[i]->detach();
     }
 }
@@ -60,7 +60,7 @@ ThreadPool<T>::ThreadPool(int max_task_num, int thread_num)
 
     for(int i=0;i<thread_num_;i++)
     {
-        threads_[i]=new std::thread(worker_thread_entry_,this);
+        threads_[i]=std::move( std::make_unique<std::thread>(worker_thread_entry_,this) );
         threads_[i]->detach();
     }
 }
@@ -68,10 +68,7 @@ ThreadPool<T>::ThreadPool(int max_task_num, int thread_num)
 template<class T>
 ThreadPool<T>::~ThreadPool()
 {
-    for(int i=0;i<thread_num_;i++)
-    {
-        delete threads_[i];
-    }
+
 }
 
 template<class T>
