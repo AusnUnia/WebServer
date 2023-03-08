@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/test.dir/http/http_connection.cpp.o"
+  "CMakeFiles/test.dir/http/http_connection.cpp.o.d"
   "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o"
   "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o.d"
   "CMakeFiles/test.dir/test.cpp.o"

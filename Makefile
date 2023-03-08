@@ -129,6 +129,30 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
+http/http_connection.o: http/http_connection.cpp.o
+.PHONY : http/http_connection.o
+
+# target to build an object file
+http/http_connection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/http/http_connection.cpp.o
+.PHONY : http/http_connection.cpp.o
+
+http/http_connection.i: http/http_connection.cpp.i
+.PHONY : http/http_connection.i
+
+# target to preprocess a source file
+http/http_connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/http/http_connection.cpp.i
+.PHONY : http/http_connection.cpp.i
+
+http/http_connection.s: http/http_connection.cpp.s
+.PHONY : http/http_connection.s
+
+# target to generate assembly for a file
+http/http_connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/http/http_connection.cpp.s
+.PHONY : http/http_connection.cpp.s
+
 mysql_connection_pool/mysql_connection_pool.o: mysql_connection_pool/mysql_connection_pool.cpp.o
 .PHONY : mysql_connection_pool/mysql_connection_pool.o
 
@@ -210,6 +234,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... http/http_connection.o"
+	@echo "... http/http_connection.i"
+	@echo "... http/http_connection.s"
 	@echo "... mysql_connection_pool/mysql_connection_pool.o"
 	@echo "... mysql_connection_pool/mysql_connection_pool.i"
 	@echo "... mysql_connection_pool/mysql_connection_pool.s"
