@@ -25,6 +25,7 @@ class Timer
 public:
     time_t expire_;
     std::shared_ptr<ClientData> shared_ptr_clientdata_;
+    void (*CallBackFunc)(std::shared_ptr<ClientData> user_data);
     
 };
 
@@ -32,8 +33,8 @@ class SortedTimerList
 {
 public:
     void AddTimer(std::shared_ptr<Timer> timer);
-    void AdjustTimer(std::shared_ptr<Timer> timer);
-    void DeleteTimer(std::shared_ptr<Timer> timer);
+    bool AdjustTimer(std::shared_ptr<Timer> timer);
+    bool DeleteTimer(std::shared_ptr<Timer> timer);
     void Tick();
 
 private:

@@ -177,6 +177,30 @@ test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
 .PHONY : test.cpp.s
 
+timer/timer.o: timer/timer.cpp.o
+.PHONY : timer/timer.o
+
+# target to build an object file
+timer/timer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/timer/timer.cpp.o
+.PHONY : timer/timer.cpp.o
+
+timer/timer.i: timer/timer.cpp.i
+.PHONY : timer/timer.i
+
+# target to preprocess a source file
+timer/timer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/timer/timer.cpp.i
+.PHONY : timer/timer.cpp.i
+
+timer/timer.s: timer/timer.cpp.s
+.PHONY : timer/timer.s
+
+# target to generate assembly for a file
+timer/timer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/timer/timer.cpp.s
+.PHONY : timer/timer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +216,9 @@ help:
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"
+	@echo "... timer/timer.o"
+	@echo "... timer/timer.i"
+	@echo "... timer/timer.s"
 .PHONY : help
 
 

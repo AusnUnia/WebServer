@@ -7,6 +7,7 @@
 
 #include "thread_pool/thread_pool.h"
 #include "mysql_connection_pool/mysql_connection_pool.h"
+#include "timer/timer.h"
 
 class Task
 {
@@ -52,7 +53,14 @@ int main()
 {
     
     std::unique_ptr<MysqlConnectionPool> unique{MysqlConnectionPool::GetInstance()};
-    
+
+    SortedTimerList lst;
+    auto timer=std::make_shared<Timer>();
+    lst.AddTimer(std::make_shared<Timer>());
+    lst.AddTimer(timer);
+    lst.AdjustTimer(timer);
+
+
     int server_sock=0;
     int client_sock=0;
 

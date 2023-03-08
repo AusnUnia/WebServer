@@ -1,3 +1,0 @@
-/home/ausn/Desktop/Server/CMakeFiles/test.dir
-/home/ausn/Desktop/Server/CMakeFiles/edit_cache.dir
-/home/ausn/Desktop/Server/CMakeFiles/rebuild_cache.dir
