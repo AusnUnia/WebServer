@@ -34,6 +34,9 @@ public:
 class SortedTimerList
 {
 public:
+    SortedTimerList()=default;
+    ~SortedTimerList()=default;
+
     void AddTimer(std::shared_ptr<Timer> timer);
     bool AdjustTimer(std::shared_ptr<Timer> timer);
     bool DeleteTimer(std::shared_ptr<Timer> timer);
