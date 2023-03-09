@@ -21,9 +21,9 @@ class Server
 {
 public:
     Server();
-    Server();
+    ~Server();
 
-    void Init(int port , std::string user, std::string passWord, std::string databaseName,
+    void Init(int port , std::string user, std::string password, std::string database_name,
               int log_write , int opt_linger, int trig_mode, int sql_num,
               int thread_num, int close_log, int actor_model);
 
@@ -44,14 +44,14 @@ public:
 public:
     //基础
     int port_;
-    std::string root_;
+    std::string file_root_dir_;
     int log_write_;
     int close_log_;
     int actor_model_;
 
     int pipe_fd_[2];
     int epoll_fd_;
-    HttpConnection *users;
+    std::shared_ptr<HttpConnection[]> user_connections_; //HttpConnection类对象的数组
 
     //数据库相关
     std::shared_ptr<MysqlConnectionPool> sql_pool_;
@@ -61,20 +61,20 @@ public:
     int sql_num_;
 
     //线程池相关
-    std::shared_ptr< ThreadPool<HttpConnection> > *thread_pool_;
+    std::shared_ptr< ThreadPool<HttpConnection> > thread_pool_;
     int thread_num_;
 
     //epoll_event相关
     epoll_event events[kMaxEventNumber];
 
     int listen_fd_;
-    int OPT_LINGER_;
-    int TRIGMode_;
-    int LISTENTrigmode_;
-    int CONNTrigmode_;
+    int opt_linger_; //opt_linger=0为优雅关闭连接，opt_linger=1时会延时关闭
+    int trig_mode_;  //用于设置listen_trig_mode_和connect_trig_mode_
+    int listen_trig_mode_;
+    int connect_trig_mode_;
 
     //定时器相关
-    ClientData *users_timer_;
+    std::shared_ptr<ClientData[]> user_timers_;
     Utils utils_;
 };
 

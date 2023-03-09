@@ -57,6 +57,13 @@
         "memory_resource": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "forward_list": "cpp",
+        "executor": "cpp",
+        "io_context": "cpp",
+        "netfwd": "cpp",
+        "timer": "cpp",
+        "future": "cpp",
+        "cinttypes": "cpp"
     }
 }
