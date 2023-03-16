@@ -5,7 +5,6 @@
 class HttpConnection
 {
 public:
-    static int user_count_;
 
     enum class Method
     {
@@ -38,6 +37,13 @@ public:
         INTERNAL_ERROR,
         CLOSED_CONNECTION
     };
+
+public:
+    void InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connection_pool );
+
+public:
+    static int epoll_fd_;
+    static int user_count_;
 };
 
 

@@ -8,13 +8,14 @@
 #include<exception>
 
 #include"../lock/my_semaphore.h"
+#include"../mysql_connection_pool/mysql_connection_pool.h"
 
 template<class T>
 class ThreadPool
 {
     public:
         ThreadPool();
-        ThreadPool(int max_task_num, int thread_num);
+        ThreadPool(int actor_model, int max_task_num, int thread_num);
         ~ThreadPool();
 
         bool AddTask(std::weak_ptr<T> task);
@@ -23,11 +24,16 @@ class ThreadPool
         void Run();
     private:
         int max_task_num_; //task_list_中能存在的最大任务数量
+        mutable std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量,必须通过unique_lock或lock_guard来管理使用。
         std::list< std::weak_ptr<T> > task_list_; //等待被线程执行的任务队列,用weak_ptr管理任务，避免该处影响到任务本身的生命周期。
+        
         int thread_num_; //线程数量
         mutable Semaphore sem_;  //用于线程间消息传递
         std::vector<std::unique_ptr<std::thread>> threads_; //装有所有线程的vector
-        mutable std::mutex task_list_mutex_;  //用来保护task_list_lock的互斥量,必须通过unique_lock或lock_guard来管理使用。
+
+        std::shared_ptr<MysqlConnectionPool> connection_pool_;  //mysql数据库连接池
+
+        int actor_model_;    //模型切换
 };
 
 
@@ -37,7 +43,7 @@ class ThreadPool
 
 template<class T>
 ThreadPool<T>::ThreadPool()
-: max_task_num_{10}, thread_num_{4}, threads_(thread_num_)
+: max_task_num_{10}, thread_num_{4}, threads_(thread_num_), actor_model_{0}
 {
     for(int i=0;i<thread_num_;i++)
     {
@@ -47,8 +53,8 @@ ThreadPool<T>::ThreadPool()
 }
 
 template<class T>
-ThreadPool<T>::ThreadPool(int max_task_num, int thread_num)
-:max_task_num_{max_task_num},thread_num_{thread_num}
+ThreadPool<T>::ThreadPool(int actor_model,int max_task_num, int thread_num)
+:actor_model_{actor_model}, max_task_num_{max_task_num},thread_num_{thread_num}
 {
     if(thread_num_<=0||max_task_num_<=0)
     {

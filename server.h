@@ -43,18 +43,18 @@ public:
 
 public:
     //基础
-    int port_;
-    std::string file_root_dir_;
+    int port_; //服务器监听的端口号
+    std::string file_root_dir_; //服务器文件的根目录
     int log_write_;
-    int close_log_;
-    int actor_model_;
+    int close_log_; 
+    int actor_model_; 
 
     int pipe_fd_[2];
     int epoll_fd_;
     std::shared_ptr<HttpConnection[]> user_connections_; //HttpConnection类对象的数组
 
     //数据库相关
-    std::shared_ptr<MysqlConnectionPool> sql_pool_;
+    std::shared_ptr<MysqlConnectionPool> sql_pool_; //mysql数据库连接池
     std::string database_user_;         //登陆数据库用户名
     std::string database_password_;     //登陆数据库密码
     std::string database_name_; //使用数据库名
@@ -70,7 +70,7 @@ public:
     int listen_fd_;
     int opt_linger_; //opt_linger=0为优雅关闭连接，opt_linger=1时会延时关闭
     int trig_mode_;  //用于设置listen_trig_mode_和connect_trig_mode_
-    int listen_trig_mode_;
+    int listen_trig_mode_; //控制监听文件描述符的相关事件的触发模式
     int connect_trig_mode_;
 
     //定时器相关
