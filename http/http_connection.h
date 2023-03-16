@@ -1,6 +1,9 @@
 #ifndef HTTP_CONNECTION_H
 #define HTTP_CONNECTION_H
 
+#include<memory>
+
+#include"../mysql_connection_pool/mysql_connection_pool.h"
 
 class HttpConnection
 {
@@ -39,7 +42,7 @@ public:
     };
 
 public:
-    void InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connection_pool );
+    void InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connection_pool);
 
 public:
     static int epoll_fd_;
