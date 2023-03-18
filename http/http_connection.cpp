@@ -8,3 +8,9 @@ void HttpConnection::InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connec
 {
 
 }
+
+void HttpConnection::Init(int sock_fd, const sockaddr_in &addr, std::string_view root, int trig_mode,
+            int close_log, std::string_view database_user, std::string_view database_password, std::string_view database_name)
+{
+
+}

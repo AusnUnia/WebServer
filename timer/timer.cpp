@@ -132,9 +132,11 @@ void Utils::AddFd(int epoll_fd,int fd,bool one_shot,int trig_mode)
 //信号处理函数
 void Utils::SignalHandler(int signal)
 {
+    //为保证函数的可重入性，保留原来的errno
     int old_errno=errno;
     int msg=signal;
     send(pipe_fd_[1],(char*)&msg,1,0);
+    errno=old_errno;
 }
 
 //设置信号函数

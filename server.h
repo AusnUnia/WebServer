@@ -49,9 +49,9 @@ public:
     int close_log_; 
     int actor_model_; 
 
-    int pipe_fd_[2];
+    std::shared_ptr<int []> pipe_fd_{new int[2]};
     int epoll_fd_;
-    std::shared_ptr<HttpConnection[]> user_connections_; //HttpConnection类对象的数组
+    std::shared_ptr<HttpConnection[]> user_http_connections_; //HttpConnection类对象的数组
 
     //数据库相关
     std::shared_ptr<MysqlConnectionPool> sql_pool_; //mysql数据库连接池
@@ -65,7 +65,7 @@ public:
     int thread_num_;
 
     //epoll_event相关
-    epoll_event events[kMaxEventNumber];
+    epoll_event events_[kMaxEventNumber];
 
     int listen_fd_;
     int opt_linger_; //opt_linger=0为优雅关闭连接，opt_linger=1时会延时关闭

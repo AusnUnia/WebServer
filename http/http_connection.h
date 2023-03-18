@@ -1,6 +1,7 @@
 #ifndef HTTP_CONNECTION_H
 #define HTTP_CONNECTION_H
 
+#include <netinet/in.h>
 #include<memory>
 
 #include"../mysql_connection_pool/mysql_connection_pool.h"
@@ -43,6 +44,9 @@ public:
 
 public:
     void InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connection_pool);
+
+    void Init(int sock_fd, const sockaddr_in &addr, std::string_view root, int trig_mode,
+                     int close_log, std::string_view database_user, std::string_view database_password, std::string_view database_name);
 
 public:
     static int epoll_fd_;

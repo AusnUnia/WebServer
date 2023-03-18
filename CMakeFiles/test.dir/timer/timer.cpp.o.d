@@ -165,7 +165,27 @@ CMakeFiles/test.dir/timer/timer.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
  /usr/include/x86_64-linux-gnu/bits/in.h \
  /home/ausn/Desktop/Server/timer/../http/http_connection.h \
- /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /home/ausn/Desktop/Server/timer/../http/../mysql_connection_pool/mysql_connection_pool.h \
+ /usr/include/mysql/mysql.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ /usr/include/mysql/field_types.h /usr/include/mysql/my_list.h \
+ /usr/include/mysql/mysql_com.h /usr/include/mysql/my_command.h \
+ /usr/include/mysql/my_compress.h \
+ /usr/include/mysql/udf_registration_types.h \
+ /usr/include/mysql/client_plugin.h /usr/include/c++/12/stdlib.h \
+ /usr/include/mysql/plugin_auth_common.h \
+ /usr/include/mysql/mysql_version.h /usr/include/mysql/mysql_time.h \
+ /usr/include/mysql/errmsg.h /usr/include/c++/12/atomic \
+ /home/ausn/Desktop/Server/timer/../http/../mysql_connection_pool/../lock/my_semaphore.h \
+ /usr/include/c++/12/mutex /usr/include/c++/12/system_error \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
+ /usr/include/c++/12/stdexcept /usr/include/c++/12/bits/chrono.h \
+ /usr/include/c++/12/ratio /usr/include/c++/12/limits \
+ /usr/include/c++/12/ctime /usr/include/c++/12/bits/parse_numbers.h \
+ /usr/include/c++/12/bits/std_mutex.h \
+ /usr/include/c++/12/bits/unique_lock.h \
+ /usr/include/c++/12/condition_variable /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \

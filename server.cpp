@@ -2,10 +2,13 @@
 
 
 #include<unistd.h>
+#include<sys/signal.h>
 #include<assert.h>
 #include<string.h>
 
-Server::Server(): user_connections_{new HttpConnection[kMaxFd]},user_timers_{new ClientData[kMaxFd]}
+#include<memory>
+
+Server::Server(): user_http_connections_{new HttpConnection[kMaxFd]},user_timers_{new ClientData[kMaxFd]}
 {
     //设置root文件夹路径
     char server_path[200];
@@ -91,7 +94,7 @@ void Server::SqlPool()
     sql_pool_=std::move(MysqlConnectionPool::GetInstance());
     sql_pool_->Init("localhost",database_user_,database_password_,database_name_,3306,sql_num_,close_log_);
 
-    user_connections_.get()->InitMysqlResult(sql_pool_);
+    user_http_connections_.get()->InitMysqlResult(sql_pool_);
 }
 
 void Server::ThreadPoolInit()
@@ -157,4 +160,125 @@ void Server::EventListen()
     HttpConnection::epoll_fd_=epoll_fd_;
 
     //
+    if(socketpair(PF_UNIX,SOCK_STREAM,0,pipe_fd_.get())!=0)
+    {
+        std::cerr<<"socketpair() error!"<<std::endl;
+    }
+    utils_.SetNonblocking(pipe_fd_[1]);
+    utils_.AddFd(epoll_fd_,pipe_fd_[0],false,0);
+
+    //注册信号应对函数
+    utils_.AddSignal(SIGPIPE,SIG_IGN);
+    utils_.AddSignal(SIGALRM,utils_.SignalHandler,false);
+    utils_.AddSignal(SIGTERM,utils_.SignalHandler,false);
+
+    alarm(kTimeSlot);
+
+    //将epoll_fd_,pip_fd_和Utils相关联
+    Utils::pipe_fd_=pipe_fd_;
+    Utils::epoll_fd_=epoll_fd_;
+}
+
+void Server::EventLoop()
+{
+    bool time_out=false;
+    bool stop_server=false;
+
+    while(!stop_server)
+    {
+        int trigered_events_number=epoll_wait(epoll_fd_,events_,kMaxEventNumber,-1); //一直等，直到有事件触发
+        if(trigered_events_number<0&&errno!=EINTR)
+        {
+            std::cerr<<"epoll failure"<<std::endl;
+            break;
+        }
+
+        for(int i=0;i<trigered_events_number;i++)
+        {
+            int sock_fd=events_[i].data.fd;
+
+            //有新客户连接
+            if(sock_fd==listen_fd_)
+            {
+                bool flag=DealClientData();
+                if(flag==false)
+                    continue;
+            }
+            else if(events_[i].events&(EPOLLRDHUP | EPOLLHUP | EPOLLERR))
+            {
+
+            }
+        }
+    }
+}
+
+bool Server::DealClientData()
+{
+    struct sockaddr_in client_address;
+    socklen_t client_address_len=sizeof(client_address);
+
+    if(listen_trig_mode_==0) //边缘触发
+    {
+        int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
+        if(connection_fd<0)
+        {
+            std::cerr<<"accept() errer! errno = "+errno<<std::endl;
+            return false;
+        }
+
+        //客户太多
+        if(HttpConnection::user_count_>=kMaxFd)
+        {
+            utils_.ShowError(connection_fd,"Internal server busy!");
+            std::cerr<<"Internal server busy!"<<std::endl;
+            return false;
+        }
+
+        TimerInit(connection_fd,client_address); //每个客户的连接都上个计时器，防止占用资源不用
+    }
+    else //水平触发
+    {
+        while(true)
+        {
+            int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
+            int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
+            if(connection_fd<0)
+            {
+                std::cerr<<"accept() errer! errno = "+errno<<std::endl;
+                break;
+            }
+
+            //客户太多
+            if(HttpConnection::user_count_>=kMaxFd)
+            {
+                utils_.ShowError(connection_fd,"Internal server busy!");
+                std::cerr<<"Internal server busy!"<<std::endl;
+                break;
+            }
+
+            TimerInit(connection_fd,client_address); //每个客户的连接都上个计时器，防止占用资源不用
+        }
+    }
+    return true;
+}
+
+void Server::TimerInit(int connection_fd, struct sockaddr_in client_address)
+{
+    //初始化HttpConnection
+    user_http_connections_[connection_fd].Init(connection_fd,client_address,file_root_dir_,connect_trig_mode_,close_log_,database_user_,database_password_,database_name_);
+
+    //初始化ClientData
+    user_timers_[connection_fd].address_=client_address;
+    user_timers_[connection_fd].sock_fd_=connection_fd;
+
+    //设置计时器
+    std::shared_ptr<Timer> sh_timer=std::make_shared<Timer>();
+    sh_timer->shared_ptr_clientdata_=std::shared_ptr<ClientData>(&user_timers_[connection_fd]);//绑定用户数据
+    sh_timer->CallBackFunc=CallBackFunc;//设置回调函数
+    time_t now=time(nullptr);
+    sh_timer->expire_=now+3*kTimeSlot;//设置超时时间
+
+    user_timers_[connection_fd].weak_ptr_timer_=sh_timer; //关联用户数据和计时器
+
+    utils_.sorted_timer_list_.AddTimer(sh_timer); //把新的计时器加入链表
 }
