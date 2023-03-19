@@ -39,7 +39,7 @@ public:
     void AdjustTimer(std::shared_ptr<Timer> timer);
     void DealTimer(std::shared_ptr<Timer> timer, int sock_fd); //关闭客户的连接，移除相应计时器
     bool DealClientData();
-    bool DealWithSignal(bool& timeout, bool& stop_server);
+    bool DealWithSignal(bool& timeout, bool& stop_server); //DealWithSignal将根据pip_fd_[0]中读取的信号决定，是否将time_out,stop_server置为1,从而控制服务器的行动。
     void DealWithRead(int sock_fd);
     void DealWithWrite(int sock_fd);
 
@@ -51,9 +51,9 @@ public:
     int close_log_; 
     int actor_model_; 
 
-    std::shared_ptr<int [2]> pipe_fd_;
+    std::shared_ptr<int [2]> pipe_fd_; //往pipe_fd_[1]中写入系统信号，从pipe_fd_[0]中读取系统信号
     int epoll_fd_;
-    std::shared_ptr<HttpConnection[]> user_http_connections_; //HttpConnection类对象的数组
+    std::shared_ptr< std::shared_ptr<HttpConnection>[] > user_http_connections_; //HttpConnection类对象的数组
 
     //数据库相关
     std::shared_ptr<MysqlConnectionPool> sql_pool_; //mysql数据库连接池

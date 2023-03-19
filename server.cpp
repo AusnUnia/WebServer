@@ -7,7 +7,7 @@
 #include<string.h>
 
 
-Server::Server(): user_http_connections_{new HttpConnection[kMaxFd]},user_timers_{new std::shared_ptr<ClientData>[kMaxFd]}
+Server::Server(): user_http_connections_{new std::shared_ptr<HttpConnection>[kMaxFd]},user_timers_{new std::shared_ptr<ClientData>[kMaxFd]}
 {
     //设置root文件夹路径
     char server_path[200];
@@ -93,7 +93,7 @@ void Server::SqlPool()
     sql_pool_=std::move(MysqlConnectionPool::GetInstance());
     sql_pool_->Init("localhost",database_user_,database_password_,database_name_,3306,sql_num_,close_log_);
 
-    user_http_connections_.get()->InitMysqlResult(sql_pool_);
+    user_http_connections_[0]->InitMysqlResult(sql_pool_);
 }
 
 void Server::ThreadPoolInit()
@@ -168,7 +168,7 @@ void Server::EventListen()
 
     //注册信号应对函数
     utils_.AddSignal(SIGPIPE,SIG_IGN);
-    utils_.AddSignal(SIGALRM,utils_.SignalHandler,false); //注册信号应对函数，这里的SignalHandler会把信号发给pip_fd_[1]
+    utils_.AddSignal(SIGALRM,utils_.SignalHandler,false); //注册信号应对函数，这里的SignalHandler会把信号发给pip_fd_[1]，这样就可以从pipe_fd_[0]中读取到该信号了。
     utils_.AddSignal(SIGTERM,utils_.SignalHandler,false);
 
     alarm(kTimeSlot);
@@ -208,11 +208,28 @@ void Server::EventLoop()
                 std::shared_ptr<Timer> sh_timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
                 DealTimer(sh_timer,sock_fd); //关闭客户的连接，移除相应计时器
             }
-            //pipe_fd_[0]有读事件表明有系统信号来了
+            //pipe_fd_[0]有读事件表明有系统信号来了,下面处理信号
             else if( (sock_fd==pipe_fd_[0])&&(events_[i].events&EPOLLIN) )
             {
-                bool flag=DealWithSignal(time_out,stop_server); //
+                bool flag=DealWithSignal(time_out,stop_server); //DealWithSignal将根据pip_fd_[0]中读取的信号决定，是否将time_out,stop_server置为1,从而控制服务器的行动。
+
             }
+            //客户来数据了,处理客户连接收到的数据
+            else if(events_[i].events&EPOLLIN)
+            {
+                DealWithRead(sock_fd); //处理读数据（接收客户发的数据）
+            }
+            else if(events_[i].events&EPOLLOUT)
+            {
+                DealWithWrite(sock_fd); //处理写数据（发送给客户数据）
+            }
+        }
+
+        if(time_out)
+        {
+            utils_.TimerHandler();
+            std::clog<<"timer tick"<<std::endl;
+            time_out=false;
         }
     }
 }
@@ -246,7 +263,7 @@ bool Server::DealClientData()
         while(true)
         {
             int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
-            int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
+
             if(connection_fd<0)
             {
                 std::cerr<<"accept() errer! errno = "+errno<<std::endl;
@@ -270,7 +287,7 @@ bool Server::DealClientData()
 void Server::TimerInit(int connection_fd, struct sockaddr_in client_address)
 {
     //初始化HttpConnection
-    user_http_connections_[connection_fd].Init(connection_fd,client_address,file_root_dir_,connect_trig_mode_,close_log_,database_user_,database_password_,database_name_);
+    user_http_connections_[connection_fd]->Init(connection_fd,client_address,file_root_dir_,connect_trig_mode_,close_log_,database_user_,database_password_,database_name_);
 
     //初始化ClientData
     user_timers_[connection_fd]->address_=client_address;
@@ -300,4 +317,62 @@ void Server::DealTimer(std::shared_ptr<Timer> timer, int sock_fd)
         }
     }
     std::cout<<"close fd: "<<user_timers_[sock_fd]->sock_fd_<<std::endl;
+}
+
+bool Server::DealWithSignal(bool& time_out, bool& stop_server)
+{
+    char signal_buf[1024];
+
+    int ret=recv(pipe_fd_[0],signal_buf,sizeof(signal_buf),0);
+    if(ret==-1)
+    {
+        return false;
+    }
+    else if(ret==0)
+    {
+        return false;
+    }
+    else
+    {
+        for(int i=0;i<ret;i++)
+        {
+            if(signal_buf[i]==SIGALRM) //超时了
+            {
+                time_out=true;
+                break;
+            }
+            if(signal_buf[i]==SIGTERM) //中断信来了
+            {
+                stop_server=true;
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+void Server::DealWithRead(int sock_fd)
+{
+    std::shared_ptr<Timer> sh_timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
+
+    //reactor
+    if(actor_model_==1)
+    {
+        if(sh_timer)
+        {
+            AdjustTimer(sh_timer);
+        }
+
+        thread_pool_->AddTask(user_http_connections_[sock_fd]);
+    }
+}
+
+void Server::AdjustTimer(std::shared_ptr<Timer> timer)
+{
+
+}
+
+void Server::DealWithWrite(int sock_fd)
+{
+
 }

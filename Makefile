@@ -177,6 +177,30 @@ mysql_connection_pool/mysql_connection_pool.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.s
 .PHONY : mysql_connection_pool/mysql_connection_pool.cpp.s
 
+server.o: server.cpp.o
+.PHONY : server.o
+
+# target to build an object file
+server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server.cpp.o
+.PHONY : server.cpp.o
+
+server.i: server.cpp.i
+.PHONY : server.i
+
+# target to preprocess a source file
+server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server.cpp.i
+.PHONY : server.cpp.i
+
+server.s: server.cpp.s
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server.cpp.s
+.PHONY : server.cpp.s
+
 test.o: test.cpp.o
 .PHONY : test.o
 
@@ -240,6 +264,9 @@ help:
 	@echo "... mysql_connection_pool/mysql_connection_pool.o"
 	@echo "... mysql_connection_pool/mysql_connection_pool.i"
 	@echo "... mysql_connection_pool/mysql_connection_pool.s"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

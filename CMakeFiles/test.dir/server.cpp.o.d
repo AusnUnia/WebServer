@@ -1,5 +1,6 @@
-CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
- /usr/include/stdc-predef.h /usr/include/c++/12/string \
+CMakeFiles/test.dir/server.cpp.o: /home/ausn/Desktop/Server/server.cpp \
+ /usr/include/stdc-predef.h /home/ausn/Desktop/Server/server.h \
+ /usr/include/c++/12/string \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -128,7 +129,74 @@ CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/12/bits/charconv.h \
- /usr/include/c++/12/bits/basic_string.tcc /usr/include/arpa/inet.h \
+ /usr/include/c++/12/bits/basic_string.tcc /usr/include/c++/12/memory \
+ /usr/include/c++/12/bits/stl_uninitialized.h \
+ /usr/include/c++/12/bits/stl_tempbuf.h \
+ /usr/include/c++/12/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
+ /usr/include/c++/12/bits/uses_allocator.h \
+ /usr/include/c++/12/bits/unique_ptr.h /usr/include/c++/12/tuple \
+ /usr/include/c++/12/bits/shared_ptr.h \
+ /usr/include/c++/12/bits/shared_ptr_base.h /usr/include/c++/12/typeinfo \
+ /usr/include/c++/12/bits/allocated_ptr.h \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/ext/concurrence.h /usr/include/c++/12/exception \
+ /usr/include/c++/12/bits/exception_ptr.h \
+ /usr/include/c++/12/bits/cxxabi_init_exception.h \
+ /usr/include/c++/12/bits/nested_exception.h \
+ /usr/include/c++/12/bits/shared_ptr_atomic.h \
+ /usr/include/c++/12/bits/atomic_base.h \
+ /usr/include/c++/12/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/12/backward/auto_ptr.h \
+ /usr/include/c++/12/pstl/glue_memory_defs.h \
+ /usr/include/c++/12/pstl/execution_defs.h /usr/include/c++/12/array \
+ /usr/include/c++/12/compare /usr/include/x86_64-linux-gnu/sys/epoll.h \
+ /usr/include/x86_64-linux-gnu/bits/epoll.h \
+ /home/ausn/Desktop/Server/./thread_pool/thread_pool.h \
+ /usr/include/c++/12/list /usr/include/c++/12/bits/stl_list.h \
+ /usr/include/c++/12/bits/list.tcc /usr/include/c++/12/thread \
+ /usr/include/c++/12/bits/std_thread.h \
+ /usr/include/c++/12/bits/this_thread_sleep.h \
+ /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
+ /usr/include/c++/12/limits /usr/include/c++/12/ctime \
+ /usr/include/c++/12/bits/parse_numbers.h /usr/include/c++/12/mutex \
+ /usr/include/c++/12/system_error \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
+ /usr/include/c++/12/stdexcept /usr/include/c++/12/bits/std_mutex.h \
+ /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/vector \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/vector.tcc \
+ /home/ausn/Desktop/Server/./thread_pool/../lock/my_semaphore.h \
+ /usr/include/c++/12/condition_variable \
+ /home/ausn/Desktop/Server/./thread_pool/../mysql_connection_pool/mysql_connection_pool.h \
+ /usr/include/mysql/mysql.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ /usr/include/mysql/field_types.h /usr/include/mysql/my_list.h \
+ /usr/include/mysql/mysql_com.h /usr/include/mysql/my_command.h \
+ /usr/include/mysql/my_compress.h \
+ /usr/include/mysql/udf_registration_types.h \
+ /usr/include/mysql/client_plugin.h /usr/include/c++/12/stdlib.h \
+ /usr/include/mysql/plugin_auth_common.h \
+ /usr/include/mysql/mysql_version.h /usr/include/mysql/mysql_time.h \
+ /usr/include/mysql/errmsg.h /usr/include/c++/12/atomic \
+ /home/ausn/Desktop/Server/./thread_pool/../mysql_connection_pool/../lock/my_semaphore.h \
+ /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
+ /usr/include/c++/12/ios /usr/include/c++/12/bits/ios_base.h \
+ /usr/include/c++/12/bits/locale_classes.h \
+ /usr/include/c++/12/bits/locale_classes.tcc \
+ /usr/include/c++/12/streambuf /usr/include/c++/12/bits/streambuf.tcc \
+ /usr/include/c++/12/bits/basic_ios.h \
+ /usr/include/c++/12/bits/locale_facets.h /usr/include/c++/12/cwctype \
+ /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h \
+ /usr/include/c++/12/bits/streambuf_iterator.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h \
+ /usr/include/c++/12/bits/locale_facets.tcc \
+ /usr/include/c++/12/bits/basic_ios.tcc \
+ /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
+ /usr/include/c++/12/bits/istream.tcc \
+ /home/ausn/Desktop/Server/./http/http_connection.h \
  /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
@@ -152,80 +220,30 @@ CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h /usr/include/c++/12/stdlib.h \
- /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
- /usr/include/c++/12/ios /usr/include/c++/12/exception \
- /usr/include/c++/12/bits/exception_ptr.h \
- /usr/include/c++/12/bits/cxxabi_init_exception.h \
- /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/nested_exception.h \
- /usr/include/c++/12/bits/ios_base.h \
- /usr/include/c++/12/bits/locale_classes.h \
- /usr/include/c++/12/bits/locale_classes.tcc \
- /usr/include/c++/12/system_error \
- /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
- /usr/include/c++/12/stdexcept /usr/include/c++/12/streambuf \
- /usr/include/c++/12/bits/streambuf.tcc \
- /usr/include/c++/12/bits/basic_ios.h \
- /usr/include/c++/12/bits/locale_facets.h /usr/include/c++/12/cwctype \
- /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
- /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h \
- /usr/include/c++/12/bits/streambuf_iterator.h \
- /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h \
- /usr/include/c++/12/bits/locale_facets.tcc \
- /usr/include/c++/12/bits/basic_ios.tcc \
- /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
- /usr/include/c++/12/bits/istream.tcc \
- /home/ausn/Desktop/Server/thread_pool/thread_pool.h \
- /usr/include/c++/12/list /usr/include/c++/12/bits/stl_list.h \
- /usr/include/c++/12/bits/allocated_ptr.h \
- /usr/include/c++/12/ext/aligned_buffer.h \
- /usr/include/c++/12/bits/list.tcc /usr/include/c++/12/thread \
- /usr/include/c++/12/bits/std_thread.h /usr/include/c++/12/tuple \
- /usr/include/c++/12/bits/uses_allocator.h \
- /usr/include/c++/12/bits/unique_ptr.h \
- /usr/include/c++/12/bits/this_thread_sleep.h \
- /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
- /usr/include/c++/12/limits /usr/include/c++/12/ctime \
- /usr/include/c++/12/bits/parse_numbers.h /usr/include/c++/12/mutex \
- /usr/include/c++/12/bits/std_mutex.h \
- /usr/include/c++/12/bits/unique_lock.h /usr/include/c++/12/vector \
- /usr/include/c++/12/bits/stl_uninitialized.h \
- /usr/include/c++/12/bits/stl_vector.h \
- /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc \
- /home/ausn/Desktop/Server/thread_pool/../lock/my_semaphore.h \
- /usr/include/c++/12/memory /usr/include/c++/12/bits/stl_tempbuf.h \
- /usr/include/c++/12/bits/stl_raw_storage_iter.h \
- /usr/include/c++/12/bits/align.h /usr/include/c++/12/bit \
- /usr/include/c++/12/bits/shared_ptr.h \
- /usr/include/c++/12/bits/shared_ptr_base.h \
- /usr/include/c++/12/ext/concurrence.h \
- /usr/include/c++/12/bits/shared_ptr_atomic.h \
- /usr/include/c++/12/bits/atomic_base.h \
- /usr/include/c++/12/bits/atomic_lockfree_defines.h \
- /usr/include/c++/12/backward/auto_ptr.h \
- /usr/include/c++/12/pstl/glue_memory_defs.h \
- /usr/include/c++/12/pstl/execution_defs.h \
- /usr/include/c++/12/condition_variable \
- /home/ausn/Desktop/Server/thread_pool/../mysql_connection_pool/mysql_connection_pool.h \
- /usr/include/mysql/mysql.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
- /usr/include/mysql/field_types.h /usr/include/mysql/my_list.h \
- /usr/include/mysql/mysql_com.h /usr/include/mysql/my_command.h \
- /usr/include/mysql/my_compress.h \
- /usr/include/mysql/udf_registration_types.h \
- /usr/include/mysql/client_plugin.h \
- /usr/include/mysql/plugin_auth_common.h \
- /usr/include/mysql/mysql_version.h /usr/include/mysql/mysql_time.h \
- /usr/include/mysql/errmsg.h /usr/include/c++/12/atomic \
- /home/ausn/Desktop/Server/thread_pool/../mysql_connection_pool/../lock/my_semaphore.h \
- /home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.h \
- /home/ausn/Desktop/Server/timer/timer.h \
- /home/ausn/Desktop/Server/server.h /usr/include/c++/12/array \
- /usr/include/c++/12/compare /usr/include/x86_64-linux-gnu/sys/epoll.h \
- /usr/include/x86_64-linux-gnu/bits/epoll.h \
- /home/ausn/Desktop/Server/./thread_pool/thread_pool.h \
- /home/ausn/Desktop/Server/./http/http_connection.h \
+ /usr/include/linux/close_range.h \
  /home/ausn/Desktop/Server/./http/../mysql_connection_pool/mysql_connection_pool.h \
  /home/ausn/Desktop/Server/./mysql_connection_pool/mysql_connection_pool.h \
- /home/ausn/Desktop/Server/./timer/timer.h
+ /home/ausn/Desktop/Server/./timer/timer.h /usr/include/arpa/inet.h \
+ /usr/include/x86_64-linux-gnu/sys/signal.h /usr/include/signal.h \
+ /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
+ /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-consts.h \
+ /usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+ /usr/include/x86_64-linux-gnu/bits/sigevent-consts.h \
+ /usr/include/x86_64-linux-gnu/bits/sigaction.h \
+ /usr/include/x86_64-linux-gnu/bits/sigcontext.h \
+ /usr/include/x86_64-linux-gnu/bits/types/stack_t.h \
+ /usr/include/x86_64-linux-gnu/sys/ucontext.h \
+ /usr/include/x86_64-linux-gnu/bits/sigstack.h \
+ /usr/include/x86_64-linux-gnu/bits/sigstksz.h \
+ /usr/include/x86_64-linux-gnu/bits/ss_flags.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
+ /usr/include/x86_64-linux-gnu/bits/sigthread.h \
+ /usr/include/x86_64-linux-gnu/bits/signal_ext.h /usr/include/assert.h \
+ /usr/include/string.h /usr/include/strings.h
