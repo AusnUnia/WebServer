@@ -6,9 +6,8 @@
 #include<assert.h>
 #include<string.h>
 
-#include<memory>
 
-Server::Server(): user_http_connections_{new HttpConnection[kMaxFd]},user_timers_{new ClientData[kMaxFd]}
+Server::Server(): user_http_connections_{new HttpConnection[kMaxFd]},user_timers_{new std::shared_ptr<ClientData>[kMaxFd]}
 {
     //设置root文件夹路径
     char server_path[200];
@@ -169,7 +168,7 @@ void Server::EventListen()
 
     //注册信号应对函数
     utils_.AddSignal(SIGPIPE,SIG_IGN);
-    utils_.AddSignal(SIGALRM,utils_.SignalHandler,false);
+    utils_.AddSignal(SIGALRM,utils_.SignalHandler,false); //注册信号应对函数，这里的SignalHandler会把信号发给pip_fd_[1]
     utils_.AddSignal(SIGTERM,utils_.SignalHandler,false);
 
     alarm(kTimeSlot);
@@ -206,7 +205,13 @@ void Server::EventLoop()
             }
             else if(events_[i].events&(EPOLLRDHUP | EPOLLHUP | EPOLLERR))
             {
-
+                std::shared_ptr<Timer> sh_timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
+                DealTimer(sh_timer,sock_fd); //关闭客户的连接，移除相应计时器
+            }
+            //pipe_fd_[0]有读事件表明有系统信号来了
+            else if( (sock_fd==pipe_fd_[0])&&(events_[i].events&EPOLLIN) )
+            {
+                bool flag=DealWithSignal(time_out,stop_server); //
             }
         }
     }
@@ -268,17 +273,31 @@ void Server::TimerInit(int connection_fd, struct sockaddr_in client_address)
     user_http_connections_[connection_fd].Init(connection_fd,client_address,file_root_dir_,connect_trig_mode_,close_log_,database_user_,database_password_,database_name_);
 
     //初始化ClientData
-    user_timers_[connection_fd].address_=client_address;
-    user_timers_[connection_fd].sock_fd_=connection_fd;
+    user_timers_[connection_fd]->address_=client_address;
+    user_timers_[connection_fd]->sock_fd_=connection_fd;
 
     //设置计时器
     std::shared_ptr<Timer> sh_timer=std::make_shared<Timer>();
-    sh_timer->shared_ptr_clientdata_=std::shared_ptr<ClientData>(&user_timers_[connection_fd]);//绑定用户数据
+    sh_timer->shared_ptr_clientdata_=std::shared_ptr<ClientData>(user_timers_[connection_fd]);//绑定用户数据
     sh_timer->CallBackFunc=CallBackFunc;//设置回调函数
     time_t now=time(nullptr);
     sh_timer->expire_=now+3*kTimeSlot;//设置超时时间
 
-    user_timers_[connection_fd].weak_ptr_timer_=sh_timer; //关联用户数据和计时器
+    user_timers_[connection_fd]->weak_ptr_timer_=sh_timer; //关联用户数据和计时器
 
     utils_.sorted_timer_list_.AddTimer(sh_timer); //把新的计时器加入链表
+}
+
+void Server::DealTimer(std::shared_ptr<Timer> timer, int sock_fd)
+{
+    timer->CallBackFunc(user_timers_[sock_fd]); //从epoll事件表删除sock_fd对应客户的事件
+    if(timer)
+    {
+        bool delete_result=utils_.sorted_timer_list_.DeleteTimer(timer);
+        if(!delete_result)
+        {
+            std::cerr<<"DeleteTimer() failed. Timer of "<<sock_fd<<std::endl;
+        }
+    }
+    std::cout<<"close fd: "<<user_timers_[sock_fd]->sock_fd_<<std::endl;
 }

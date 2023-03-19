@@ -3,6 +3,8 @@
 
 
 #include<string>
+#include<memory>
+#include<array>
 
 #include<sys/epoll.h>
 
@@ -34,12 +36,12 @@ public:
     void EventListen();
     void EventLoop();
     void TimerInit(int connfd, struct sockaddr_in client_address);
-    void AdjustTimer(Timer *timer);
-    void DealTimer(Timer *timer, int sockfd);
+    void AdjustTimer(std::shared_ptr<Timer> timer);
+    void DealTimer(std::shared_ptr<Timer> timer, int sock_fd); //关闭客户的连接，移除相应计时器
     bool DealClientData();
     bool DealWithSignal(bool& timeout, bool& stop_server);
-    void DealWithRead(int sockfd);
-    void DealWithWrite(int sockfd);
+    void DealWithRead(int sock_fd);
+    void DealWithWrite(int sock_fd);
 
 public:
     //基础
@@ -49,7 +51,7 @@ public:
     int close_log_; 
     int actor_model_; 
 
-    std::shared_ptr<int []> pipe_fd_{new int[2]};
+    std::shared_ptr<int [2]> pipe_fd_;
     int epoll_fd_;
     std::shared_ptr<HttpConnection[]> user_http_connections_; //HttpConnection类对象的数组
 
@@ -74,7 +76,7 @@ public:
     int connect_trig_mode_;
 
     //定时器相关
-    std::shared_ptr<ClientData[]> user_timers_;
+    std::shared_ptr< std::shared_ptr<ClientData>[] > user_timers_; //user_timers_指向一个 保存有客户数据的共享指针 的数组
     Utils utils_;
 };
 
