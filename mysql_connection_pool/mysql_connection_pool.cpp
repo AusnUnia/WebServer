@@ -139,3 +139,16 @@ void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass
     return;
 
 }
+
+
+MysqlConnectionRAII::MysqlConnectionRAII(std::shared_ptr<MYSQL> connection,std::shared_ptr<MysqlConnectionPool> connection_pool)
+{
+	connection=connection_pool->GetConnection();
+
+	connection_=connection;
+	connection_pool_=connection_pool;
+}
+MysqlConnectionRAII::~MysqlConnectionRAII()
+{
+	connection_pool_->ReleaseConnection(connection_);
+}

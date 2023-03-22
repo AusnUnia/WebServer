@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <unistd.h> 
 #include <fcntl.h>
+#include <sys/epoll.h>
 
 #include<iostream>
 #include<memory>
@@ -84,21 +85,21 @@ private:
     void Init();
     HttpCode ProcessRead();
     bool ProcessWrite(HttpCode ret);
-    HttpCode parse_request_line(char *text);
-    HttpCode parse_headers(char *text);
-    HttpCode parse_content(char *text);
-    HttpCode do_request();
-    char *get_line() { return (read_buffer_+start_line_); };
-    LineStatus parse_line();
-    void unmap();
-    bool add_response(const char *format, ...);
-    bool add_content(const char *content);
-    bool add_status_line(int status, const char *title);
-    bool add_headers(int content_length);
-    bool add_content_type();
-    bool add_content_length(int content_length);
-    bool add_linger();
-    bool add_blank_line();
+    HttpCode ParseRequestLine(std::string_view text);
+    HttpCode ParseHeaders(std::string_view text);
+    HttpCode ParaseContent(std::string_view text);
+    HttpCode DoRequest();
+    char *GetLine() { return (read_buffer_.data()+start_line_); };
+    LineStatus ParseLine();
+    void Unmap();
+    bool AddResponse(const char *format, ...);
+    bool AddContent(const char *content);
+    bool AddStatusLine(int status, const char *title);
+    bool AddHeaders(int content_length);
+    bool AddContentType();
+    bool AddContentLenth(int content_length);
+    bool AddLinger();
+    bool AddBlankLine();
 
 
 
@@ -150,18 +151,18 @@ private:
     int sock_fd_;
     sockaddr_in address_;
 
-    char read_buffer_[kReadBufferSize];
+    std::string read_buffer_=std::string(kReadBufferSize,'\0');
     int read_idx_;
     int checked_idx_;
     int start_line_;
 
-    char write_buffer_[kWriteBufferSize];
+    std::string write_buffer_=std::string(kWriteBufferSize,'\0');
     int write_idx_;
 
     CheckState check_state_;
     Method method_;
 
-    char real_file_[kFileNameLen];
+    std::string real_file_=std::string(kFileNameLen,'\0');
     std::string url_;
     std::string version_;
     std::string host_;

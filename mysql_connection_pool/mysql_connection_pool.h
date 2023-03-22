@@ -44,6 +44,16 @@ public:
 
 };
 
+class MysqlConnectionRAII
+{
+public:
+	MysqlConnectionRAII(std::shared_ptr<MYSQL> connection,std::shared_ptr<MysqlConnectionPool> connection_pool);
+	~MysqlConnectionRAII();
+	
+private:
+	std::shared_ptr<MYSQL> connection_;
+	std::shared_ptr<MysqlConnectionPool> connection_pool_;
+};
 
 
 #endif
