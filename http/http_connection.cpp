@@ -2,6 +2,7 @@
 
 #include<mysql/mysql.h>
 #include<string.h>
+#include<charconv>
 
 
 
@@ -258,31 +259,99 @@ HttpConnection::HttpCode HttpConnection::ParseRequestLine(std::string_view text)
 
     //提取url
     text=text.substr(method_tail-text.data()+1,-1);
-    url_ += strspn(url_.c_str()," \t");
-    version_ = strpbrk(url_.data(), " \t");
-    if (version_=="")
-        return HttpCode::BAD_REQUEST;
-
-    version_ += strspn(version_, " \t");
-    if (strcasecmp(version_, "HTTP/1.1") != 0)
-        return HttpCode::BAD_REQUEST;
-    if (strncasecmp(m_url, "http://", 7) == 0)
+    const char* url_tail=strpbrk(text.data()," \t");
+    std::string_view url=text.substr(0,url_tail-text.data());
+    if(url=="")
     {
-        m_url += 7;
-        m_url = strchr(m_url, '/');
+        return HttpCode::BAD_REQUEST;
+    }
+    //url_=url;不忙赋值，待会儿还要裁剪url
+
+    //提取http协议版本
+    text=text.substr(url_tail-text.data()+1,-1);
+    const char* version_tail=strpbrk(text.data()," \t");
+    std::string_view version=text.substr(0,url_tail-text.data());
+    if(version=="")
+    {
+        return HttpCode::BAD_REQUEST;
+    }
+    else if(version!="HTTP/1.1")
+    {
+        return HttpCode::BAD_REQUEST;
+    }
+    version_=version;
+
+
+    //处理url，得到请求的文件路径
+    if(url.substr(0,7)=="http://")
+    {
+        url.remove_prefix(7);
+        int start_pos=url.find('/');
+        url.remove_prefix(start_pos);
+    } 
+    else if (url.substr(0,8)=="https://")
+    {
+        url.remove_prefix(8);
+        int start_pos=url.find('/');
+        url.remove_prefix(start_pos);
     }
 
-    if (strncasecmp(m_url, "https://", 8) == 0)
-    {
-        m_url += 8;
-        m_url = strchr(m_url, '/');
-    }
-
-    if (!m_url || m_url[0] != '/')
+    if (url.empty() || url[0] != '/')
         return HttpCode::BAD_REQUEST;
+
+    url_=url;
     //当url为/时，显示判断界面
-    if (strlen(m_url) == 1)
-        strcat(m_url, "judge.html");
-    check_state_ = CheckState::CHECK_STATE_HEADER;
+    if (url_=="/")
+        url_+="test.html";
+
+    check_state_ = CheckState::CHECK_STATE_HEADER; //接下来该处理headers了
+
+    return HttpCode::NO_REQUEST;
+}
+
+
+//解析http请求的一个头部信息
+HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
+{
+    if (text[0] == '\0')
+    {
+        if (content_length_ != 0)
+        {
+            check_state_ = CheckState::CHECK_STATE_CONTENT;
+            return HttpCode::NO_REQUEST;
+        }
+        return HttpCode::GET_REQUEST;
+    }
+    else if (text.substr(0,11)=="Connection:")
+    {
+        text.remove_prefix(11);
+        text.remove_prefix(strspn(text.data(), " \t"));
+        if (text.substr(0,10)=="keep-alive")
+        {
+            linger_ = true; //用户想保持连接，那最后要优雅断开连接
+        }
+    }
+    else if (text.substr(15)=="Content-length:")
+    {
+        text.remove_prefix(15);
+        text.remove_prefix(strspn(text.data(), " \t"));
+
+        auto result=std::from_chars(text.data(),text.data()+text.size(),content_length_);
+        if(result.ec==std::errc::invalid_argument)
+        {
+            std::cerr<<"could not convert! from_chars() error!"<<std::endl;
+        }
+    }
+    else if (text.substr(5)=="Host:")
+    {
+        text.remove_prefix(5);
+        text.remove_prefix(strspn(text.data(), " \t"));
+        host_ = text;
+    }
+    else
+    {
+        std::cerr<<"oop!unknow header: "<<text<<std::endl;
+    }
+
     return HttpCode::NO_REQUEST;
 }

@@ -53,6 +53,16 @@ class Task
 int main()
 {
     
+    std::string req_line="GET http://cprogramming/ HTTP/1.1";
+
+    HttpConnection hc;
+    hc.ParseRequestLine(req_line);
+    std::cout<<(hc.method_==HttpConnection::Method::GET)<<std::endl;
+    std::cout<<hc.url_<<std::endl;
+    std::cout<<hc.version_<<std::endl;
+
+    
+    
     std::unique_ptr<MysqlConnectionPool> unique{MysqlConnectionPool::GetInstance()};
     Server server;
     server.Init(8966,"root","FXYiloveyou1314","mydb",0,0,0,8,4,0,0);

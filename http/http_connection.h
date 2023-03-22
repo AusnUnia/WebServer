@@ -81,7 +81,7 @@ public:
     int improve_;
 
 
-private:
+public://测试改动，要改回private
     void Init();
     HttpCode ProcessRead();
     bool ProcessWrite(HttpCode ret);
@@ -147,7 +147,7 @@ public:
     std::shared_ptr<MYSQL> mysql_;
     int state_; //读为0, 写为1
 
-private:
+public://测试改动，要改回private
     int sock_fd_;
     sockaddr_in address_;
 

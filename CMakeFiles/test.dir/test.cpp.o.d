@@ -225,7 +225,18 @@ CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
  /usr/include/c++/12/compare /usr/include/x86_64-linux-gnu/sys/epoll.h \
  /usr/include/x86_64-linux-gnu/bits/epoll.h \
  /home/ausn/Desktop/Server/./thread_pool/thread_pool.h \
- /home/ausn/Desktop/Server/./http/http_connection.h \
+ /home/ausn/Desktop/Server/./http/http_connection.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/c++/12/map \
+ /usr/include/c++/12/bits/stl_tree.h \
+ /usr/include/c++/12/bits/node_handle.h \
+ /usr/include/c++/12/bits/stl_map.h \
+ /usr/include/c++/12/bits/stl_multimap.h \
+ /usr/include/c++/12/bits/erase_if.h \
  /home/ausn/Desktop/Server/./http/../mysql_connection_pool/mysql_connection_pool.h \
+ /home/ausn/Desktop/Server/./http/../lock/my_semaphore.h \
+ /home/ausn/Desktop/Server/./http/../timer/timer.h \
  /home/ausn/Desktop/Server/./mysql_connection_pool/mysql_connection_pool.h \
  /home/ausn/Desktop/Server/./timer/timer.h

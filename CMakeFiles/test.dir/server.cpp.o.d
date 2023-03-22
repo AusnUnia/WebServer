@@ -220,10 +220,22 @@ CMakeFiles/test.dir/server.cpp.o: /home/ausn/Desktop/Server/server.cpp \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h \
+ /usr/include/linux/close_range.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/c++/12/map \
+ /usr/include/c++/12/bits/stl_tree.h \
+ /usr/include/c++/12/bits/node_handle.h \
+ /usr/include/c++/12/bits/stl_map.h \
+ /usr/include/c++/12/bits/stl_multimap.h \
+ /usr/include/c++/12/bits/erase_if.h \
  /home/ausn/Desktop/Server/./http/../mysql_connection_pool/mysql_connection_pool.h \
+ /home/ausn/Desktop/Server/./http/../lock/my_semaphore.h \
+ /home/ausn/Desktop/Server/./http/../timer/timer.h \
+ /usr/include/arpa/inet.h \
  /home/ausn/Desktop/Server/./mysql_connection_pool/mysql_connection_pool.h \
- /home/ausn/Desktop/Server/./timer/timer.h /usr/include/arpa/inet.h \
+ /home/ausn/Desktop/Server/./timer/timer.h \
  /usr/include/x86_64-linux-gnu/sys/signal.h /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
