@@ -160,7 +160,7 @@ public://测试改动，要改回private
     int write_idx_;
 
     CheckState check_state_;
-    Method method_;
+    Method method_; //http请求的方法
 
     std::string real_file_=std::string(kFileNameLen,'\0');
     std::string url_;
@@ -168,7 +168,7 @@ public://测试改动，要改回private
     std::string host_;
     int content_length_;
     bool linger_;
-    std::string file_address_;
+    std::string file_address_; //文件映射到进程空间的地址
     struct stat file_stat_;
     struct iovec iovec_[2];
     int iovec_count_;

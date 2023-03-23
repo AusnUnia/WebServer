@@ -1,6 +1,9 @@
 #include "http_connection.h"
 
 #include<mysql/mysql.h>
+#include<sys/stat.h>
+#include<sys/mman.h>
+#include <sys/uio.h>
 #include<string.h>
 #include<charconv>
 
@@ -496,42 +499,130 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
     }
     else if (url_[last_slash_pos+1] ==  '5')
     {
-        char *m_url_real = (char *)malloc(sizeof(char) * 200);
-        strcpy(m_url_real, "/picture.html");
-        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
-
-        free(m_url_real);
+        std::string url_real;
+        url_real="/picture.html";
+        real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] ==  '6')
     {
-        char *m_url_real = (char *)malloc(sizeof(char) * 200);
-        strcpy(m_url_real, "/video.html");
-        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
-
-        free(m_url_real);
+        std::string url_real;
+        url_real="/video.html";
+        real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] ==  '7')
     {
-        char *m_url_real = (char *)malloc(sizeof(char) * 200);
-        strcpy(m_url_real, "/fans.html");
-        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
-
-        free(m_url_real);
+        std::string url_real;
+        url_real="/fans.html";
+        real_file_.append(url_real);
     }
     else
-        strncpy(m_real_file + len, m_url, FILENAME_LEN - len - 1);
+        real_file_.append(url_);
 
-    if (stat(m_real_file, &m_file_stat) < 0)
-        return NO_RESOURCE;
+    if (stat(real_file_.c_str(), &file_stat_) < 0)
+        return HttpCode::NO_RESOURCE;
 
-    if (!(m_file_stat.st_mode & S_IROTH))
-        return FORBIDDEN_REQUEST;
+    if (!(file_stat_.st_mode & S_IROTH))
+        return HttpCode::FORBIDDEN_REQUEST;
 
-    if (S_ISDIR(m_file_stat.st_mode))
-        return BAD_REQUEST;
+    if (S_ISDIR(file_stat_.st_mode))
+        return HttpCode::BAD_REQUEST;
 
-    int fd = open(m_real_file, O_RDONLY);
-    m_file_address = (char *)mmap(0, m_file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+
+    int fd = open(real_file_.c_str(), O_RDONLY); //fd为即将映射到进程空间的文件描述符
+    file_address_ = (char *)mmap(0, file_stat_.st_size, PROT_READ, MAP_PRIVATE, fd, 0);//将fd对应的文件从内核空间（硬盘）映射到进程空间，PROT_READ表示进程只能读这块内存
     close(fd);
-    return FILE_REQUEST;
+
+    return HttpCode::FILE_REQUEST;
+}
+
+
+void HttpConnection::Unmap()
+{
+    if(!file_address_.empty())
+    {
+        munmap(file_address_.data(),file_stat_.st_size); //解除内存映射
+        file_address_.clear();
+    }
+}
+
+bool HttpConnection::Write()
+{
+    int temp = 0;
+
+    //该发的已经发送完了
+    if (bytes_to_send_ == 0)
+    {
+        ModFd(epoll_fd_, sock_fd_, EPOLLIN, trig_mode_);
+        Init();
+        return true;
+    }
+
+    while (1)
+    {
+        temp = writev(sock_fd_, iovec_, iovec_count_);
+
+        if (temp < 0)
+        {
+            if (errno == EAGAIN)
+            {
+                ModFd(epoll_fd_, sock_fd_, EPOLLOUT, trig_mode_);
+                return true;
+            }
+            Unmap();
+            return false;
+        }
+
+        bytes_have_send_ += temp;
+        bytes_to_send_ -= temp;
+
+        if (bytes_have_send_ >= iovec_[0].iov_len)
+        {
+            iovec_[0].iov_len = 0;
+            iovec_[1].iov_base = file_address_.data() + (bytes_have_send_ - write_idx_);
+            iovec_[1].iov_len = bytes_to_send_;
+        }
+        else
+        {
+            iovec_[0].iov_base = write_buffer_.data() + bytes_have_send_;
+            iovec_[0].iov_len = iovec_[0].iov_len - bytes_have_send_;
+        }
+
+        if (bytes_to_send_ <= 0)
+        {
+            Unmap();
+            ModFd(epoll_fd_, sock_fd_, EPOLLIN, trig_mode_);
+
+            if (linger_)
+            {
+                Init();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+bool HttpConnection::AddResponse()
+{
+
+}
+
+void HttpConnection::Process()
+{
+    HttpCode read_ret = ProcessRead();
+    if (read_ret == HttpCode::NO_REQUEST)
+    {
+        ModFd(epoll_fd_,sock_fd_, EPOLLIN, trig_mode_);
+        return;
+    }
+
+    bool write_ret = ProcessWrite(read_ret);
+    if (!write_ret)
+    {
+        CloseConnection();
+    }
+    ModFd(epoll_fd_, sock_fd_, EPOLLOUT, trig_mode_);
 }
