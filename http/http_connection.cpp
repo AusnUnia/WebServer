@@ -20,7 +20,7 @@ const std::string error_500_form = "There was an unusual problem serving the req
 int HttpConnection::epoll_fd_{-1};
 int HttpConnection::user_count_{0};
 
-Semaphore locker;
+std::mutex users_mutex;
 std::map<std::string,std::string> users;
 
 //初始化该HttpConnection
@@ -354,4 +354,184 @@ HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
     }
 
     return HttpCode::NO_REQUEST;
+}
+
+
+HttpConnection::HttpCode HttpConnection::ParseContent(std::string_view text)
+{
+    if(read_idx_>=content_length_+checked_idx_)
+    {
+        request_header_=text.substr(0,content_length_);
+        return HttpCode::GET_REQUEST;
+    }
+    return HttpCode::NO_REQUEST;
+}
+
+
+//读入数据后的操作,一行一行地解析
+HttpConnection::HttpCode HttpConnection::ProcessRead()
+{
+    LineStatus line_status = LineStatus::LINE_OK;
+    HttpCode ret = HttpCode::NO_REQUEST;
+    std::string_view text;
+
+    while ((check_state_ == CheckState::CHECK_STATE_CONTENT && line_status == LineStatus::LINE_OK) || ((line_status = ParseLine()) == LineStatus::LINE_OK))
+    {
+        text = GetLine();
+        start_line_ = checked_idx_;
+        std::cout<<text<<std::endl;
+        switch (check_state_)
+        {
+            case CheckState::CHECK_STATE_REQUESTLINE:
+            {
+                ret = ParseRequestLine(text);
+                if (ret == HttpCode::BAD_REQUEST)
+                    return HttpCode::BAD_REQUEST;
+                break;
+            }
+            case CheckState::CHECK_STATE_HEADER:
+            {
+                ret = ParseHeaders(text);
+                if (ret == HttpCode::BAD_REQUEST)
+                    return HttpCode::BAD_REQUEST;
+                else if (ret == HttpCode::GET_REQUEST)
+                {
+                    return DoRequest();
+                }
+                break;
+            }
+            case CheckState::CHECK_STATE_CONTENT:
+            {
+                ret = ParseContent(text);
+                if (ret == HttpCode::GET_REQUEST)
+                    return DoRequest();
+                line_status = LineStatus::LINE_OPEN;
+                break;
+            }
+            default:
+                return HttpCode::INTERNAL_ERROR;
+        }
+    }
+    return HttpCode::NO_REQUEST;
+}
+
+HttpConnection::HttpCode HttpConnection::DoRequest()
+{
+    real_file_=doc_root_;
+    int len = doc_root_.size();
+    //printf("m_url:%s\n", m_url);
+    int last_slash_pos = url_.rfind('/');
+
+    //处理cgi
+    if (cgi_ == 1 && (url_[last_slash_pos+1] == '2' || url_[last_slash_pos+1] == '3'))
+    {
+
+        //根据标志判断是登录检测还是注册检测
+        char flag =url_[1];
+
+        std::string url_real;
+        url_real.append("/") ;
+        url_real.append(url_.substr(2,-1));
+        real_file_.append(url_real);
+
+        //将用户名和密码提取出来
+        //user=123&passwd=123
+        std::string account_user;
+        std::string account_password;
+        int and_pos=request_header_.find('&');
+        account_user=request_header_.substr(0,and_pos);
+        account_password=request_header_.substr(and_pos+1,-1);
+
+        if (url_[last_slash_pos+1] == '3') //注册
+        {
+            //如果是注册，先检测数据库中是否有重名的
+            //没有重名的，进行增加数据
+            std::string sql_insert;
+            sql_insert="INSERT INTO user(username, passwd) VALUES(";
+            sql_insert.append("'");
+            sql_insert.append(account_user);
+            sql_insert.append("', '");
+            sql_insert.append(account_password);
+            sql_insert.append("')");
+
+            if (users.find(account_user) == users.end())
+            {
+                int res;
+                {
+                std::lock_guard<std::mutex> guard(users_mutex);
+                res = mysql_query(mysql_.get(), sql_insert.c_str());
+                users.insert(std::pair<std::string, std::string>(account_user, account_password));
+                }
+
+                if (!res)
+                    url_="/log.html";
+                else
+                    url_="/registerError.html";
+            }
+            else
+                url_="/registerError.html";
+        }
+        //如果是登录，直接判断
+        //若浏览器端输入的用户名和密码在表中可以查找到，返回1，否则返回0
+        else if (url_[last_slash_pos+1] == '3')
+        {
+            if (users.find(account_user) != users.end() && users[account_user] == account_password)
+                url_="/welcome.html";
+            else
+                url_="/logError.html";
+        }
+    }
+
+    if (url_[last_slash_pos+1] == '0')
+    {
+        std::string url_real;
+        url_real="/register.html";
+        real_file_.append(url_real);
+    }
+    else if (url_[last_slash_pos+1] == '1')
+    {
+        std::string url_real;
+        url_real="/log.html";
+        real_file_.append(url_real);
+    }
+    else if (url_[last_slash_pos+1] ==  '5')
+    {
+        char *m_url_real = (char *)malloc(sizeof(char) * 200);
+        strcpy(m_url_real, "/picture.html");
+        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
+
+        free(m_url_real);
+    }
+    else if (url_[last_slash_pos+1] ==  '6')
+    {
+        char *m_url_real = (char *)malloc(sizeof(char) * 200);
+        strcpy(m_url_real, "/video.html");
+        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
+
+        free(m_url_real);
+    }
+    else if (url_[last_slash_pos+1] ==  '7')
+    {
+        char *m_url_real = (char *)malloc(sizeof(char) * 200);
+        strcpy(m_url_real, "/fans.html");
+        strncpy(m_real_file + len, m_url_real, strlen(m_url_real));
+
+        free(m_url_real);
+    }
+    else
+        strncpy(m_real_file + len, m_url, FILENAME_LEN - len - 1);
+
+    if (stat(m_real_file, &m_file_stat) < 0)
+        return NO_RESOURCE;
+
+    if (!(m_file_stat.st_mode & S_IROTH))
+        return FORBIDDEN_REQUEST;
+
+    if (S_ISDIR(m_file_stat.st_mode))
+        return BAD_REQUEST;
+
+    int fd = open(m_real_file, O_RDONLY);
+    m_file_address = (char *)mmap(0, m_file_stat.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+    close(fd);
+    return FILE_REQUEST;
 }

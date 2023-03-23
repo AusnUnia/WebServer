@@ -87,9 +87,9 @@ public://测试改动，要改回private
     bool ProcessWrite(HttpCode ret);
     HttpCode ParseRequestLine(std::string_view text);
     HttpCode ParseHeaders(std::string_view text);
-    HttpCode ParaseContent(std::string_view text);
+    HttpCode ParseContent(std::string_view text);
     HttpCode DoRequest();
-    char *GetLine() { return (read_buffer_.data()+start_line_); };
+    std::string_view GetLine() { return (read_buffer_.data()+start_line_); };
     LineStatus ParseLine();
     void Unmap();
     bool AddResponse(const char *format, ...);
