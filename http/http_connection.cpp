@@ -605,10 +605,117 @@ bool HttpConnection::Write()
     }
 }
 
-bool HttpConnection::AddResponse()
+bool HttpConnection::AddResponse(std::string format,...)
 {
+    if (write_idx_ >= kWriteBufferSize)
+        return false;
 
+    va_list arg_list;
+    va_start(arg_list, format);
+    int len = vsnprintf(write_buffer_.data() + write_idx_, kWriteBufferSize- 1 - write_idx_, format.c_str(), arg_list);
+    if (len >= (kWriteBufferSize - 1 - write_idx_))
+    {
+        va_end(arg_list);
+        return false;
+    }
+    write_idx_ += len;
+    va_end(arg_list);
+
+    std::cout<<("request: %s", write_buffer_);
+
+    return true;
 }
+
+bool HttpConnection::AddStatusLine(int status, std::string_view title)
+{
+    return AddResponse("%s %d %s\r\n", "HTTP/1.1", status, title.data());
+}
+bool HttpConnection::AddHeaders(int content_len)
+{
+    return AddContentLength(content_len) && AddLinger() &&
+           AddBlankLine();
+}
+bool HttpConnection::AddContentLength(int content_len)
+{
+    return AddResponse("Content-Length:%d\r\n", content_len);
+}
+bool HttpConnection::AddContentType()
+{
+    return AddResponse("Content-Type:%s\r\n", "text/html");
+}
+bool HttpConnection::AddLinger()
+{
+    return AddResponse("Connection:%s\r\n", (linger_ == true) ? "keep-alive" : "close");
+}
+bool HttpConnection::AddBlankLine()
+{
+    return AddResponse("%s", "\r\n");
+}
+bool HttpConnection::AddContent(std::string_view content)
+{
+    return AddResponse("%s", content);
+}
+
+bool HttpConnection::ProcessWrite(HttpCode http_code)
+{
+    switch (http_code)
+    {
+    case HttpCode::INTERNAL_ERROR:
+    {
+        AddStatusLine(500, error_500_title);
+        AddHeaders(error_500_form.size());
+        if (!AddContent(error_500_form))
+            return false;
+        break;
+    }
+    case HttpCode::BAD_REQUEST:
+    {
+        AddStatusLine(404, error_404_title);
+        AddHeaders(error_404_form.size());
+        if (!AddContent(error_404_form))
+            return false;
+        break;
+    }
+    case HttpCode::FORBIDDEN_REQUEST:
+    {
+        AddStatusLine(403, error_403_title);
+        AddHeaders(error_403_form.size());
+        if (!AddContent(error_403_form))
+            return false;
+        break;
+    }
+    case HttpCode::FILE_REQUEST:
+    {
+        AddStatusLine(200, ok_200_title);
+        if (file_stat_.st_size != 0)
+        {
+            AddHeaders(file_stat_.st_size);
+            iovec_[0].iov_base = write_buffer_.data();
+            iovec_[0].iov_len = write_idx_;
+            iovec_[1].iov_base = file_address_.data();
+            iovec_[1].iov_len = file_stat_.st_size;
+            iovec_count_ = 2;
+            bytes_to_send_ = write_idx_ + file_stat_.st_size;
+            return true;
+        }
+        else
+        {
+            const std::string ok_string = "<html><body></body></html>";
+            AddHeaders(ok_string.size());
+            if (!AddContent(ok_string))
+                return false;
+        }
+    }
+    default:
+        return false;
+    }
+    iovec_[0].iov_base = write_buffer_.data();
+    iovec_[0].iov_len = write_idx_;
+    iovec_count_ = 1;
+    bytes_to_send_ = write_idx_;
+    return true;
+}
+
 
 void HttpConnection::Process()
 {

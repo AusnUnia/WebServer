@@ -68,6 +68,7 @@ public:
     void Init(int sock_fd, const sockaddr_in &addr, std::string_view root, int trig_mode,
                      int close_log, std::string_view database_user, std::string_view database_password, std::string_view database_name);
     void CloseConnection(bool real_close=true);
+    void Process();
     bool ReadOnce();
     bool Write();
 
@@ -92,12 +93,12 @@ public://测试改动，要改回private
     std::string_view GetLine() { return (read_buffer_.data()+start_line_); };
     LineStatus ParseLine();
     void Unmap();
-    bool AddResponse(const char *format, ...);
-    bool AddContent(const char *content);
-    bool AddStatusLine(int status, const char *title);
+    bool AddResponse(std::string format, ...);
+    bool AddContent(std::string_view content);
+    bool AddStatusLine(int status, std::string_view title);
     bool AddHeaders(int content_length);
     bool AddContentType();
-    bool AddContentLenth(int content_length);
+    bool AddContentLength(int content_length);
     bool AddLinger();
     bool AddBlankLine();
 
@@ -112,6 +113,7 @@ public:
     std::string header_{"GET"};
     std::string req_{""};
     int sock_;
+    /*
     void Process()
     {
         char buf[512];
@@ -138,7 +140,7 @@ public:
         fflush(write_stream);
         fclose(write_stream);
         fclose(read_stream);
-    }
+    }*/
     ////////////////////////////test////////////////////////////////////
 
 public:

@@ -278,8 +278,27 @@ CMakeFiles/test.dir/http/http_connection.cpp.o: http/http_connection.cpp \
   lock/my_semaphore.h \
   timer/timer.h \
   /usr/include/arpa/inet.h \
+  /usr/include/x86_64-linux-gnu/sys/stat.h \
+  /usr/include/x86_64-linux-gnu/bits/statx.h \
+  /usr/include/linux/stat.h \
+  /usr/include/linux/types.h \
+  /usr/include/x86_64-linux-gnu/asm/types.h \
+  /usr/include/asm-generic/types.h \
+  /usr/include/asm-generic/int-ll64.h \
+  /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
+  /usr/include/x86_64-linux-gnu/sys/mman.h \
+  /usr/include/x86_64-linux-gnu/bits/mman.h \
+  /usr/include/x86_64-linux-gnu/bits/mman-map-flags-generic.h \
+  /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
+  /usr/include/x86_64-linux-gnu/bits/mman-shared.h \
+  /usr/include/x86_64-linux-gnu/sys/uio.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio-ext.h \
   /usr/include/string.h \
-  /usr/include/strings.h
+  /usr/include/strings.h \
+  /usr/include/c++/12/charconv
 
 CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o: mysql_connection_pool/mysql_connection_pool.cpp \
   /usr/include/stdc-predef.h \
@@ -1480,6 +1499,32 @@ test.cpp:
 
 /usr/include/string.h:
 
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+
+/usr/include/x86_64-linux-gnu/sys/uio.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-shared.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-linux.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-map-flags-generic.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman.h:
+
+/usr/include/x86_64-linux-gnu/sys/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
+
+/usr/include/x86_64-linux-gnu/bits/statx-generic.h:
+
+/usr/include/asm-generic/int-ll64.h:
+
+/usr/include/x86_64-linux-gnu/asm/types.h:
+
+/usr/include/linux/stat.h:
+
+/usr/include/x86_64-linux-gnu/sys/stat.h:
+
 timer/timer.h:
 
 /usr/include/c++/12/bits/std_mutex.h:
@@ -1495,6 +1540,8 @@ timer/timer.h:
 lock/my_semaphore.h:
 
 /usr/include/c++/12/atomic:
+
+/usr/include/x86_64-linux-gnu/bits/uio-ext.h:
 
 /usr/include/c++/12/bits/list.tcc:
 
@@ -1571,6 +1618,8 @@ server.cpp:
 /usr/include/c++/12/ostream:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
+
+/usr/include/c++/12/charconv:
 
 /usr/include/c++/12/pstl/pstl_config.h:
 
@@ -1716,7 +1765,11 @@ http/http_connection.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
+/usr/include/x86_64-linux-gnu/bits/statx.h:
+
 /usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_statx.h:
 
 /usr/include/c++/12/bits/stringfwd.h:
 
@@ -1784,6 +1837,8 @@ server.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
+/usr/include/linux/types.h:
+
 /usr/include/x86_64-linux-gnu/c++/12/bits/gthr-default.h:
 
 /usr/include/c++/12/cstdio:
@@ -1835,6 +1890,8 @@ timer/timer.cpp:
 /usr/include/linux/stddef.h:
 
 /usr/include/c++/12/exception:
+
+/usr/include/asm-generic/types.h:
 
 /usr/include/c++/12/ext/type_traits.h:
 
