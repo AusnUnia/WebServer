@@ -171,7 +171,7 @@ void Utils::ShowError(int connection_fd,std::string info)
 }
 
 
-std::shared_ptr<int[]> Utils::pipe_fd_{nullptr};
+int* Utils::pipe_fd_{nullptr};
 int Utils::epoll_fd_{0};
 
 void CallBackFunc(std::shared_ptr<ClientData> user_data)

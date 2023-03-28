@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/ausn/Desktop/Server/config.cpp" "CMakeFiles/test.dir/config.cpp.o" "gcc" "CMakeFiles/test.dir/config.cpp.o.d"
   "/home/ausn/Desktop/Server/http/http_connection.cpp" "CMakeFiles/test.dir/http/http_connection.cpp.o" "gcc" "CMakeFiles/test.dir/http/http_connection.cpp.o.d"
   "/home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.cpp" "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o" "gcc" "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o.d"
   "/home/ausn/Desktop/Server/server.cpp" "CMakeFiles/test.dir/server.cpp.o" "gcc" "CMakeFiles/test.dir/server.cpp.o.d"

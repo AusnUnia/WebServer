@@ -51,7 +51,7 @@ public:
     int close_log_; 
     int actor_model_; 
 
-    std::shared_ptr<int [2]> pipe_fd_; //往pipe_fd_[1]中写入系统信号，从pipe_fd_[0]中读取系统信号
+    int pipe_fd_[2]; //往pipe_fd_[1]中写入系统信号，从pipe_fd_[0]中读取系统信号
     int epoll_fd_;
     std::shared_ptr< std::shared_ptr<HttpConnection>[] > user_http_connections_; //HttpConnection类对象的数组
 

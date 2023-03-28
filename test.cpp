@@ -1,120 +1,50 @@
-#include <string>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <iostream>
 
-#include "thread_pool/thread_pool.h"
-#include "mysql_connection_pool/mysql_connection_pool.h"
-#include "timer/timer.h"
 #include "server.h"
+#include "config.h"
 
-class Task
+int main(int argc,char* argv[])
 {
-    public:
-    Task(int sock):sock_(sock)
-    {
+    std::string user = "root";
+    std::string passwd = "FXYiloveyou1314";
+    std::string database_name = "mydb";
 
-    }
-    std::string header_{"GET"};
-    std::string req_{""};
-    int sock_;
-    void Process()
-    {
-        char buf[512];
+    Config config;
+    config.ParseArg(argc,argv);
 
-        FILE* read_stream=fdopen(sock_,"r");
-        FILE* write_stream=fdopen(dup(sock_),"w");
-
-        fgets(buf,512,read_stream);
-        req_=buf;
-        std::cout<<req_<<std::endl;
-
-        FILE* html_file=fopen("./html/test.html","r");
-        if(html_file==nullptr)
-        {
-            std::cout<<"open error!"<<std::endl;
-            return;
-        }
-
-        while(fgets(buf,512,html_file)!=nullptr)
-        {
-            fputs(buf,write_stream);
-            fflush(write_stream);
-        }
-        fflush(write_stream);
-        fclose(write_stream);
-        fclose(read_stream);
-    }
-};
+    std::cout<<"ParseArg() success."<<std::endl;
 
 
-int main()
-{
-    
-    std::string req_line="GET http://cprogramming/ HTTP/1.1";
-
-    HttpConnection hc;
-    hc.ParseRequestLine(req_line);
-    std::cout<<(hc.method_==HttpConnection::Method::GET)<<std::endl;
-    std::cout<<hc.url_<<std::endl;
-    std::cout<<hc.version_<<std::endl;
-
-    
-    
-    std::unique_ptr<MysqlConnectionPool> unique{MysqlConnectionPool::GetInstance()};
     Server server;
-    server.Init(8966,"root","FXYiloveyou1314","mydb",0,0,0,8,4,0,0);
+    server.Init(config.port_, user, passwd, database_name, config.log_write_, 
+            config.opt_linger_, config.trig_mode_,  config.sql_num_,  config.thread_num_, 
+            config.close_log_, config.actor_model_);
 
-    SortedTimerList lst;
-    auto timer=std::make_shared<Timer>();
-    lst.AddTimer(std::make_shared<Timer>());
-    lst.AddTimer(timer);
-    lst.AdjustTimer(timer);
+    std::cout<<"server.Init() success."<<std::endl;
 
+    server.LogWrite();
 
-    int server_sock=0;
-    int client_sock=0;
+    std::cout<<"server.LogWrite() success."<<std::endl;
 
-    struct sockaddr_in server_addr,client_addr;
+    server.SqlPool();
 
-    server_sock=socket(PF_INET,SOCK_STREAM,0);
-    server_addr.sin_addr.s_addr=htonl(INADDR_ANY);
-    server_addr.sin_port=htons(9190);
-    server_addr.sin_family=AF_INET;
+    std::cout<<"server.SqlPool() success."<<std::endl;
 
-    std::cout<<server_sock<<std::endl;
+    server.ThreadPoolInit();
 
-    if( bind(server_sock,(struct sockaddr*)&server_addr,sizeof(server_addr))==-1 )
-    {
-        std::cout<<"bind errer!"<<std::endl;
-    }
+    std::cout<<"server.ThreadPoolInit() success."<<std::endl;
 
-    if(listen(server_sock,20)==-1)
-    {
-        std::cout<<"lsiten errer!"<<std::endl;
-    }
+    server.TrigMode();
 
+    std::cout<<"server.TrigMode() success."<<std::endl;
 
-    ThreadPool<Task> pool;
+    server.EventListen();
 
-    while(true)
-    {
-        std::cout<<"listenning..."<<std::endl;
-        socklen_t client_addr_size=sizeof(client_addr);
-        client_sock=accept(server_sock,(struct sockaddr*)&client_addr,&client_addr_size);
+    std::cout<<"server.EventListen() success."<<std::endl;
 
-        std::cout<<client_sock<<std::endl;
-        
-        std::cout<<"connection request : "<<ntohs(client_addr.sin_port)<<std::endl;
+    server.EventLoop();
 
-        std::shared_ptr<Task> tsk {std::make_shared<Task>(client_sock)};
+    std::cout<<"server.EventLoop() success."<<std::endl;
 
-        pool.AddTask(tsk);
-
-    }
-
-    close(client_sock);
-
+    return 0;
+    
 }

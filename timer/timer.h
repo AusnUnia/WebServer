@@ -67,7 +67,7 @@ public:
 
 public:
     int timer_slot_;
-    static std::shared_ptr<int[]> pipe_fd_;
+    static int* pipe_fd_;
     static int epoll_fd_;
     SortedTimerList sorted_timer_list_;
 };

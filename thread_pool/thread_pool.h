@@ -127,7 +127,42 @@ void ThreadPool<T>::Run()
         {
             continue;
         }
-        shared_ptr_task->Process();
+        
+        if(actor_model_==1)
+        {
+            if(shared_ptr_task->state_==0)//读入
+            {
+                if(shared_ptr_task->ReadOnce())
+                {
+                    shared_ptr_task->improve_=1;
+                    MysqlConnectionRAII mysql_connection(shared_ptr_task->mysql_,connection_pool_);
+                    shared_ptr_task->Process();
+                }
+                else
+                {
+                    shared_ptr_task->improve_=1;
+                    shared_ptr_task->timer_flag_=1;
+                }
+            }
+            else //写入
+            {
+                if(shared_ptr_task->Write())
+                {
+                    shared_ptr_task->improve_=1;
+                }
+                else
+                {
+                    shared_ptr_task->improve_=1;
+                    shared_ptr_task->timer_flag_=1;
+                }
+            }
+        }
+        else
+        {
+            MysqlConnectionRAII mysql_connection(shared_ptr_task->mysql_,connection_pool_);
+            shared_ptr_task->Process();
+        }
+
         
         std::cout<<std::this_thread::get_id()<<"  doing sth.\n";
 

@@ -31,25 +31,30 @@ void HttpConnection::InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connec
 {
     //从连接池中取一个连接,用MysqlConnectionRAII管理这个连接的生命周期,MysqlConnectionRAII析构时连接会回到连接池
     std::shared_ptr<MYSQL> mysql{nullptr};
-    MysqlConnectionRAII(mysql,connection_pool);
+    MysqlConnectionRAII connection_guard(mysql,connection_pool);
+    if(mysql==nullptr)
+    {
+        std::cout<<"mysql==nullptr"<<std::endl;
+    }
 
     //在user表中检索username，passwd数据，浏览器端输入
     if(mysql_query(mysql.get(),"SELECT username,passwd FROM user")!=0)
     {
-        std::cerr<<"SELECT error:"<<mysql_error(mysql.get())<<std::endl;
+        std::cout<<"2"<<std::endl;
+        std::cout<<"SELECT error:"<<mysql_error(mysql.get())<<std::endl;
     }
 
     //从表中检索完整的结果集
-    std::shared_ptr<MYSQL_RES> result{mysql_store_result(mysql.get())};
+    MYSQL_RES* result{mysql_store_result(mysql.get())};
 
     //返回结果集中的列数
-    int fields_num=mysql_num_fields(result.get());
+    int fields_num=mysql_num_fields(result);
 
     //返回所有字段结构的数组
-    std::shared_ptr<MYSQL_FIELD[]> fields{mysql_fetch_fields(result.get())};
+    MYSQL_FIELD* fields{mysql_fetch_fields(result)};
 
     //
-    while(MYSQL_ROW row=mysql_fetch_row(result.get()))
+    while(MYSQL_ROW row=mysql_fetch_row(result))
     {
         std::string tmp1(row[0]);
         std::string tmp2(row[1]);
@@ -72,7 +77,7 @@ void AddFd(int epoll_fd, int fd, bool one_shot, int trig_mode)
 {
     epoll_event event;
     event.data.fd = fd;
-
+    std::cout<<"AddFd inner"<<std::endl;
     if (1 == trig_mode)
         event.events = EPOLLIN | EPOLLET | EPOLLRDHUP;
     else
@@ -80,8 +85,9 @@ void AddFd(int epoll_fd, int fd, bool one_shot, int trig_mode)
 
     if (one_shot)
         event.events |= EPOLLONESHOT;
-
+    std::cout<<"AddFd 1111"<<std::endl;
     epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event);
+    std::cout<<"AddFd 2222"<<std::endl;
     SetNonblocking(fd);
 }
 
@@ -110,12 +116,15 @@ void ModFd(int epoll_fd, int fd, int ev, int trig_mode)
 void HttpConnection::Init(int sock_fd, const sockaddr_in &addr, std::string_view root, int trig_mode,
             int close_log, std::string_view database_user, std::string_view database_password, std::string_view database_name)
 {
+    std::cout<<"HttpConnection Init() inner."<<std::endl;
+    std::cout<<"sock_fd_="<<sock_fd_<<std::endl;
     sock_fd_=sock_fd;
+    std::cout<<"HttpConnection Init() 111."<<std::endl;
     address_=addr;
-
+    std::cout<<"HttpConnection Init() 222."<<std::endl;
     AddFd(epoll_fd_,sock_fd_,true,trig_mode);
     user_count_++;
-
+    std::cout<<"AddFd success"<<std::endl;
     //当浏览器出现连接重置时，可能是网站根目录出错或http响应格式出错或者访问的文件中内容完全为空
     doc_root_=root;
     trig_mode_=trig_mode;
@@ -124,7 +133,7 @@ void HttpConnection::Init(int sock_fd, const sockaddr_in &addr, std::string_view
     database_user_=database_user;
     database_password_=database_password;
     database_name_=database_name;
-
+    std::cout<<"2222"<<std::endl;
     Init();
 }
 
