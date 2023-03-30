@@ -4,8 +4,8 @@
 
 int main(int argc,char* argv[])
 {
-    std::string user = "root";
-    std::string passwd = "FXYiloveyou1314";
+    std::string user = "Ausn";
+    std::string passwd = "FXYiloveyou1314@";
     std::string database_name = "mydb";
 
     Config config;

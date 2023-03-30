@@ -208,18 +208,18 @@ void Server::EventLoop()
             //有新客户连接
             if(sock_fd==listen_fd_)
             {
-                std::cout<<"new conn"<<std::endl;
+                std::cout<<"new conn1"<<std::endl;
                 bool flag=DealClientData();
-                std::cout<<"new conn"<<std::endl;
+                std::cout<<"new conn2"<<std::endl;
                 if(flag==false)
                     continue;
             }
             else if(events_[i].events&(EPOLLRDHUP | EPOLLHUP | EPOLLERR))
             {
-                std::cout<<"close conn"<<std::endl;
+                std::cout<<"close conn1"<<std::endl;
                 std::shared_ptr<Timer> sh_timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
                 DealTimer(sh_timer,sock_fd); //关闭客户的连接，移除相应计时器
-                std::cout<<"close conn"<<std::endl;
+                std::cout<<"close conn2"<<std::endl;
             }
             //pipe_fd_[0]有读事件表明有系统信号来了,下面处理信号
             else if( (sock_fd==pipe_fd_[0])&&(events_[i].events&EPOLLIN) )
@@ -234,19 +234,19 @@ void Server::EventLoop()
             //客户来数据了,处理客户连接收到的数据
             else if(events_[i].events&EPOLLIN)
             {
+                std::cout<<"read..."<<std::endl;
                 DealWithRead(sock_fd); //处理读数据（接收客户发的数据）
             }
             else if(events_[i].events&EPOLLOUT)
             {
+                std::cout<<"write..."<<std::endl;
                 DealWithWrite(sock_fd); //处理写数据（发送给客户数据）
             }
         }
 
         if(time_out)
         {
-            std::cout<<"befored"<<std::endl;
             utils_.TimerHandler();
-            std::cout<<"after"<<std::endl;
             std::clog<<"timer tick"<<std::endl;
             time_out=false;
         }
@@ -255,6 +255,8 @@ void Server::EventLoop()
 
 bool Server::DealClientData()
 {
+    std::cout<<"Server::DealClientData()"<<std::endl;
+    
     struct sockaddr_in client_address;
     socklen_t client_address_len=sizeof(client_address);
 
@@ -283,7 +285,7 @@ bool Server::DealClientData()
         while(true)
         {
             int connection_fd=accept(listen_fd_,(struct sockaddr*)&client_address,&client_address_len);
-
+            std::cout<<"connection_fd="<<connection_fd<<std::endl;
             if(connection_fd<0)
             {
                 std::cerr<<"accept() errer! errno = "+errno<<std::endl;
@@ -306,10 +308,10 @@ bool Server::DealClientData()
 
 void Server::TimerInit(int connection_fd, struct sockaddr_in client_address)
 {
+    std::cout<<"Server::TimerInit()"<<std::endl;
     //初始化HttpConnection
-    std::cout<<"HttpConnection Init()...!"<<std::endl;
     user_http_connections_[connection_fd]->Init(connection_fd,client_address,file_root_dir_,connect_trig_mode_,close_log_,database_user_,database_password_,database_name_);
-    std::cout<<"HttpConnection Init() success!"<<std::endl;
+
     //初始化ClientData
     user_timers_[connection_fd]->address_=client_address;
     user_timers_[connection_fd]->sock_fd_=connection_fd;
@@ -342,6 +344,7 @@ void Server::DealTimer(std::shared_ptr<Timer> timer, int sock_fd)
 
 bool Server::DealWithSignal(bool& time_out, bool& stop_server)
 {
+    std::cout<<"Server::DealWithSignal()"<<std::endl;
     char signal_buf[1024];
 
     int ret=recv(pipe_fd_[0],signal_buf,sizeof(signal_buf),0);
@@ -359,11 +362,13 @@ bool Server::DealWithSignal(bool& time_out, bool& stop_server)
         {
             if(signal_buf[i]==SIGALRM) //超时了
             {
+                std::cout<<"SIGALRM time_out"<<std::endl;
                 time_out=true;
                 break;
             }
             if(signal_buf[i]==SIGTERM) //中断信来了
             {
+                std::cout<<"SIGTERM stop_server"<<std::endl;
                 stop_server=true;
                 break;
             }
@@ -374,26 +379,106 @@ bool Server::DealWithSignal(bool& time_out, bool& stop_server)
 
 void Server::DealWithRead(int sock_fd)
 {
-    std::shared_ptr<Timer> sh_timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
+    std::cout<<"DealWithRead()"<<std::endl;
+    std::shared_ptr<Timer> timer=user_timers_[sock_fd]->weak_ptr_timer_.lock();
 
     //reactor
     if(actor_model_==1)
     {
-        if(sh_timer)
+        if(timer)
         {
-            AdjustTimer(sh_timer);
+            AdjustTimer(timer);
         }
 
         thread_pool_->AddTask(user_http_connections_[sock_fd]);
+
+        while (true)
+        {
+            if (1 == user_http_connections_[sock_fd]->improve_)
+            {
+                if (1 == user_http_connections_[sock_fd]->timer_flag_)
+                {
+                    DealTimer(timer, sock_fd);
+                    user_http_connections_[sock_fd]->timer_flag_ = 0;
+                }
+                user_http_connections_[sock_fd]->improve_ = 0;
+                break;
+            }
+        }
+    }
+    else
+    {
+        //proactor
+        if (user_http_connections_[sock_fd]->ReadOnce())
+        {
+            std::cout<<"deal with the client : "<<inet_ntoa(user_http_connections_[sock_fd]->get_address()->sin_addr)<<std::endl;;
+
+            //若监测到读事件，将该事件放入请求队列
+            thread_pool_->AddTask(user_http_connections_[sock_fd]);
+
+            if (timer)
+            {
+                AdjustTimer(timer);
+            }
+        }
+        else
+        {
+            DealTimer(timer, sock_fd);
+        }
     }
 }
 
 void Server::AdjustTimer(std::shared_ptr<Timer> timer)
 {
-
+    std::cout<<"Server::AdjustTimer()"<<std::endl;
+    time_t now=time(nullptr);
+    timer->expire_=now+3*kTimeSlot;
+    utils_.sorted_timer_list_.AdjustTimer(timer);
 }
 
 void Server::DealWithWrite(int sock_fd)
 {
+    std::cout<<"Server::DealWithWrite()"<<std::endl;
+    std::shared_ptr<Timer> timer = user_timers_[sock_fd]->weak_ptr_timer_.lock();
+    //reactor
+    if (1 == actor_model_)
+    {
+        if (timer)
+        {
+            AdjustTimer(timer);
+        }
 
+        thread_pool_->AddTask(user_http_connections_[sock_fd]);
+
+        while (true)
+        {
+            if (1 == user_http_connections_[sock_fd]->improve_)
+            {
+                if (1 == user_http_connections_[sock_fd]->timer_flag_)
+                {
+                    DealTimer(timer, sock_fd);
+                    user_http_connections_[sock_fd]->timer_flag_ = 0;
+                }
+                user_http_connections_[sock_fd]->improve_ = 0;
+                break;
+            }
+        }
+    }
+    else
+    {
+        //proactor
+        if (user_http_connections_[sock_fd]->Write())
+        {
+            std::cout<<"send data to the client : "<<inet_ntoa(user_http_connections_[sock_fd]->get_address()->sin_addr)<<std::endl;
+
+            if (timer)
+            {
+                AdjustTimer(timer);
+            }
+        }
+        else
+        {
+            DealTimer(timer, sock_fd);
+        }
+    }
 }

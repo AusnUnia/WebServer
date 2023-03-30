@@ -66,6 +66,7 @@ void HttpConnection::InitMysqlResult(std::shared_ptr<MysqlConnectionPool> connec
 //对文件描述符设置非阻塞
 int SetNonblocking(int fd)
 {
+    std::cout<<"http_connection.cpp SetNonblocking()"<<std::endl;
     int old_option = fcntl(fd, F_GETFL);
     int new_option = old_option | O_NONBLOCK;
     fcntl(fd, F_SETFL, new_option);
@@ -75,9 +76,10 @@ int SetNonblocking(int fd)
 //将内核事件表注册读事件，ET模式，选择开启EPOLLONESHOT
 void AddFd(int epoll_fd, int fd, bool one_shot, int trig_mode)
 {
+    std::cout<<"http_connection.cpp AddFd()"<<std::endl;
     epoll_event event;
     event.data.fd = fd;
-    std::cout<<"AddFd inner"<<std::endl;
+
     if (1 == trig_mode)
         event.events = EPOLLIN | EPOLLET | EPOLLRDHUP;
     else
@@ -85,9 +87,9 @@ void AddFd(int epoll_fd, int fd, bool one_shot, int trig_mode)
 
     if (one_shot)
         event.events |= EPOLLONESHOT;
-    std::cout<<"AddFd 1111"<<std::endl;
+
     epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event);
-    std::cout<<"AddFd 2222"<<std::endl;
+
     SetNonblocking(fd);
 }
 
@@ -116,15 +118,14 @@ void ModFd(int epoll_fd, int fd, int ev, int trig_mode)
 void HttpConnection::Init(int sock_fd, const sockaddr_in &addr, std::string_view root, int trig_mode,
             int close_log, std::string_view database_user, std::string_view database_password, std::string_view database_name)
 {
-    std::cout<<"HttpConnection Init() inner."<<std::endl;
-    std::cout<<"sock_fd_="<<sock_fd_<<std::endl;
+    std::cout<<"HttpConnection::Init()"<<std::endl;
     sock_fd_=sock_fd;
-    std::cout<<"HttpConnection Init() 111."<<std::endl;
     address_=addr;
-    std::cout<<"HttpConnection Init() 222."<<std::endl;
+
     AddFd(epoll_fd_,sock_fd_,true,trig_mode);
+
     user_count_++;
-    std::cout<<"AddFd success"<<std::endl;
+
     //当浏览器出现连接重置时，可能是网站根目录出错或http响应格式出错或者访问的文件中内容完全为空
     doc_root_=root;
     trig_mode_=trig_mode;
@@ -133,7 +134,7 @@ void HttpConnection::Init(int sock_fd, const sockaddr_in &addr, std::string_view
     database_user_=database_user;
     database_password_=database_password;
     database_name_=database_name;
-    std::cout<<"2222"<<std::endl;
+
     Init();
 }
 
@@ -728,6 +729,7 @@ bool HttpConnection::ProcessWrite(HttpCode http_code)
 
 void HttpConnection::Process()
 {
+    std::cout<<"HttpConnection::Process()"<<std::endl;
     HttpCode read_ret = ProcessRead();
     if (read_ret == HttpCode::NO_REQUEST)
     {

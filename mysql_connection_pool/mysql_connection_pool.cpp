@@ -4,23 +4,25 @@
 
 std::shared_ptr<MYSQL> MysqlConnectionPool::GetConnection()
 {
-	connection_list_mutex_.lock();
-	std::cout<<"connection_list_.size()="<<connection_list_.size()<<std::endl;
+	std::cout<<"MysqlConnectionPool::GetConnection()"<<std::endl;
+
+	std::unique_lock<std::mutex> uni_lock(connection_list_mutex_);
+	std::cout<<"connection_list_.size()="<<std::endl;
+	std::cout<<connection_list_.size()<<std::endl;
 	if(connection_list_.size()==0)
 	{
-		connection_list_mutex_.unlock();
+		uni_lock.unlock();
 		return nullptr;
 	}
-
+	std::cout<<"MysqlConnectionPool::GetConnection() 1"<<std::endl;
 	std::shared_ptr<MYSQL> sh_conn {connection_list_.front()};
 	connection_list_.pop_front();
-	connection_list_mutex_.unlock();
-
+	uni_lock.unlock();
+	std::cout<<"MysqlConnectionPool::GetConnection() 2"<<std::endl;
 	if(sh_conn.get()==nullptr)
 	{
 		std::cout<<"sh_conn=null"<<std::endl;
 	}
-	std::cout<<sh_conn<<std::endl;
 
 	return sh_conn;
 }
@@ -37,7 +39,7 @@ bool MysqlConnectionPool::ReleaseConnection(std::shared_ptr<MYSQL> sh_conn)
 	connection_list_.push_back(sh_conn);
 	free_connection_num_++;
 	busy_connection_num_--;
-
+	std::cout<<"connection_list_.size()="<<connection_list_.size()<<std::endl;
 	connection_list_unique_lock.unlock();
 
 	sem_.Signal();
@@ -92,7 +94,7 @@ std::unique_ptr<MysqlConnectionPool> MysqlConnectionPool::GetInstance()
 
 void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log)
 {
-    std::cout<<"MysqlConnectionPool::Init 1"<<std::endl;
+    std::cout<<"MysqlConnectionPool::Init()"<<std::endl;
 	if(max_connection_num<=0)
     {
         std::cout<<"max_connection_num must be larger than 0\n";
@@ -142,7 +144,7 @@ void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass
 		std::shared_ptr<MYSQL> sh_con(con);
 
 		connection_list_.push_back(sh_con);
-
+		std::cout<<"connection_list_.size()="<<connection_list_.size()<<std::endl;
 		free_connection_num_++;
     }
 
@@ -158,12 +160,14 @@ void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass
 
 MysqlConnectionRAII::MysqlConnectionRAII(std::shared_ptr<MYSQL>& connection, std::shared_ptr<MysqlConnectionPool> connection_pool)
 {
+	std::cout<<"MysqlConnectionRAII::MysqlConnectionRAII()"<<std::endl;
 	connection=connection_pool->GetConnection();
-
+	std::cout<<"MysqlConnectionRAII::MysqlConnectionRAII() 1"<<std::endl;
 	connection_=connection;
 	connection_pool_=connection_pool;
 }
 MysqlConnectionRAII::~MysqlConnectionRAII()
 {
+	std::cout<<"MysqlConnectionRAII::~MysqlConnectionRAII()"<<std::endl;
 	connection_pool_->ReleaseConnection(connection_);
 }

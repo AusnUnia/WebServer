@@ -80,6 +80,7 @@ ThreadPool<T>::~ThreadPool()
 template<class T>
 bool ThreadPool<T>::AddTask(std::weak_ptr<T> task)
 {
+    std::cout<<"ThreadPool<T>::AddTask()"<<std::endl;
     task_list_mutex_.lock();
     if(task_list_.size()>=max_task_num_)
     {
@@ -121,13 +122,14 @@ void ThreadPool<T>::Run()
         task_list_.pop_front();
         task_list_unique_lock.unlock(); 
         
-        std::cout<<std::this_thread::get_id()<<"  ready sth.\n";
+        std::cout<<std::this_thread::get_id()<<" thread ready to do sth.\n";
         std::shared_ptr<T> shared_ptr_task=weak_ptr_task.lock();
+        std::cout<<"ThreadPool<T>::Run() 1"<<std::endl;
         if(!shared_ptr_task)
         {
             continue;
         }
-        
+        std::cout<<"ThreadPool<T>::Run() 2"<<std::endl;
         if(actor_model_==1)
         {
             if(shared_ptr_task->state_==0)//读入
@@ -159,8 +161,11 @@ void ThreadPool<T>::Run()
         }
         else
         {
+            std::cout<<"ThreadPool<T>::Run() 3"<<std::endl;
             MysqlConnectionRAII mysql_connection(shared_ptr_task->mysql_,connection_pool_);
+            std::cout<<"ThreadPool<T>::Run() 4"<<std::endl;
             shared_ptr_task->Process();
+            std::cout<<"ThreadPool<T>::Run() 5"<<std::endl;
         }
 
         
