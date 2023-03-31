@@ -15,7 +15,7 @@ class ThreadPool
 {
     public:
         ThreadPool();
-        ThreadPool(int actor_model, int max_task_num, int thread_num);
+        ThreadPool(int actor_model,std::shared_ptr<MysqlConnectionPool> connection_pool,int max_task_num, int thread_num);
         ~ThreadPool();
 
         bool AddTask(std::weak_ptr<T> task);
@@ -53,8 +53,8 @@ ThreadPool<T>::ThreadPool()
 }
 
 template<class T>
-ThreadPool<T>::ThreadPool(int actor_model,int max_task_num, int thread_num)
-:actor_model_{actor_model}, max_task_num_{max_task_num},thread_num_{thread_num}
+ThreadPool<T>::ThreadPool(int actor_model,std::shared_ptr<MysqlConnectionPool> connection_pool,int max_task_num, int thread_num)
+:actor_model_{actor_model}, connection_pool_{connection_pool}, max_task_num_{max_task_num},thread_num_{thread_num}
 {
     if(thread_num_<=0||max_task_num_<=0)
     {

@@ -105,7 +105,7 @@ void Server::SqlPool()
 
 void Server::ThreadPoolInit()
 {
-    thread_pool_=std::make_shared< ThreadPool<HttpConnection> >();
+    thread_pool_=std::make_shared< ThreadPool<HttpConnection> >(0,sql_pool_,20,4);
 }
 
 void Server::EventListen()
