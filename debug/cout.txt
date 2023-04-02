@@ -1,0 +1,805 @@
+ParseArg() success.
+/home/ausn/Desktop/Server
+server.Init() success.
+server.LogWrite() success.
+MysqlConnectionPool::Init()
+connection_list_.size()=1
+connection_list_.size()=2
+connection_list_.size()=3
+connection_list_.size()=4
+connection_list_.size()=5
+connection_list_.size()=6
+connection_list_.size()=7
+connection_list_.size()=8
+sql_pool Init success!
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+InitMysqlResult!
+server.SqlPool() success.
+server.ThreadPoolInit() success.
+server.TrigMode() success.
+listenning...
+server.EventListen() success.
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=0
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494771308096 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+GET / HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+oop!unknow header: Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+HTTP/1.1 200 OK
+HTTP/1.1 200 OK
+Content-Length:586
+HTTP/1.1 200 OK
+Content-Length:586
+Connection:keep-alive
+HTTP/1.1 200 OK
+Content-Length:586
+Connection:keep-alive
+
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494771308096  doing sth.
+write...
+Server::DealWithWrite()
+send data to the client : 127.0.0.1
+Server::AdjustTimer()
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494788093504 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+GET /favicon.ico HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: image/avif,image/webp,*/*
+oop!unknow header: Accept: image/avif,image/webp,*/*
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Referer: http://localhost:9006/
+oop!unknow header: Referer: http://localhost:9006/
+Sec-Fetch-Dest: image
+oop!unknow header: Sec-Fetch-Dest: image
+Sec-Fetch-Mode: no-cors
+oop!unknow header: Sec-Fetch-Mode: no-cors
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+
+HTTP/1.1 200 OK
+ontent-Length:586
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:4286
+nnection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:4286
+Connection:keep-alive
+HTTP/1.1 200 OK
+Content-Length:4286
+Connection:keep-alive
+
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494788093504  doing sth.
+write...
+Server::DealWithWrite()
+send data to the client : 127.0.0.1
+Server::AdjustTimer()
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494762915392 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /0 HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+oop!unknow header: Content-Length: 0
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Referer: http://localhost:9006/
+oop!unknow header: Referer: http://localhost:9006/
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+HTTP/1.1 200 OK
+ontent-Length:4286
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+Connection:keep-alive
+
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494762915392  doing sth.
+write...
+Server::DealWithWrite()
+send data to the client : 127.0.0.1
+Server::AdjustTimer()
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494779700800 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /3CGISQL.cgi HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+oop!unknow header: Content-Length: 25
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Referer: http://localhost:9006/0
+oop!unknow header: Referer: http://localhost:9006/0
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+close: 15
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494779700800  doing sth.
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=0
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+140494771308096 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /3CGISQL.cgi HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+oop!unknow header: Content-Length: 25
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Referer: http://localhost:9006/0
+oop!unknow header: Referer: http://localhost:9006/0
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+close: 15
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494771308096  doing sth.
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=0
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494788093504 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /3CGISQL.cgi HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Referer: http://localhost:9006/0
+oop!unknow header: Referer: http://localhost:9006/0
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+oop!unknow header: Content-Length: 25
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+close: 15
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494788093504  doing sth.
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=-1
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494762915392 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /3CGISQL.cgi HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Referer: http://localhost:9006/0
+oop!unknow header: Referer: http://localhost:9006/0
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+oop!unknow header: Content-Length: 25
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+close: 15
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494762915392  doing sth.
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=-1
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494779700800 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+GET / HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+oop!unknow header: Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+HTTP/1.1 200 OK
+ontent-Length:724
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:586
+onnection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:586
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:586
+Connection:keep-alive
+
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494779700800  doing sth.
+write...
+Server::DealWithWrite()
+send data to the client : 127.0.0.1
+Server::AdjustTimer()
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494771308096 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /0 HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+oop!unknow header: Content-Length: 0
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Referer: http://localhost:9006/
+oop!unknow header: Referer: http://localhost:9006/
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+HTTP/1.1 200 OK
+ontent-Length:586
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+onnection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+Connection:keep-alive
+
+HTTP/1.1 200 OK
+Content-Length:724
+Connection:keep-alive
+
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494771308096  doing sth.
+write...
+Server::DealWithWrite()
+send data to the client : 127.0.0.1
+Server::AdjustTimer()
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+new conn1
+Server::DealClientData()
+connection_fd=15
+HttpConnection::user_count_=-2
+Server::TimerInit()
+HttpConnection::Init()
+http_connection.cpp AddFd()
+http_connection.cpp SetNonblocking()
+new conn2
+read...
+DealWithRead()
+deal with the client : 127.0.0.1
+ThreadPool<T>::AddTask()
+Server::AdjustTimer()
+140494788093504 thread ready to do sth.
+ThreadPool<T>::Run() 1
+ThreadPool<T>::Run() 2
+ThreadPool<T>::Run() 3
+MysqlConnectionRAII::MysqlConnectionRAII()
+MysqlConnectionPool::GetConnection()
+connection_list_.size()=
+8
+MysqlConnectionPool::GetConnection() 1
+MysqlConnectionPool::GetConnection() 2
+MysqlConnectionRAII::MysqlConnectionRAII() 1
+ThreadPool<T>::Run() 4
+HttpConnection::Process()
+POST /3CGISQL.cgi HTTP/1.1
+Host: localhost:9006
+oop!unknow header: Host: localhost:9006
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+oop!unknow header: User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/111.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+oop!unknow header: Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+oop!unknow header: Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+oop!unknow header: Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+oop!unknow header: Content-Type: application/x-www-form-urlencoded
+Content-Length: 25
+oop!unknow header: Content-Length: 25
+Origin: http://localhost:9006
+oop!unknow header: Origin: http://localhost:9006
+Connection: keep-alive
+Referer: http://localhost:9006/0
+oop!unknow header: Referer: http://localhost:9006/0
+Upgrade-Insecure-Requests: 1
+oop!unknow header: Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+oop!unknow header: Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+oop!unknow header: Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: same-origin
+oop!unknow header: Sec-Fetch-Site: same-origin
+Sec-Fetch-User: ?1
+oop!unknow header: Sec-Fetch-User: ?1
+
+close: 15
+ThreadPool<T>::Run() 5
+MysqlConnectionRAII::~MysqlConnectionRAII()
+connection_list_.size()=8
+140494788093504  doing sth.
+system sig
+Server::DealWithSignal()
+SIGALRM time_out
+stop_server=0
+time_out=1
+Utils::TimerHandler()
+SortedTimerList::Tick()
+timer tick
+^C

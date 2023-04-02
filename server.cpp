@@ -96,7 +96,7 @@ void Server::LogWrite()
 void Server::SqlPool()
 {
     //初始化数据库连接池
-    sql_pool_=std::move(MysqlConnectionPool::GetInstance());
+    sql_pool_=MysqlConnectionPool::GetInstance();
     sql_pool_->Init("localhost",database_user_,database_password_,database_name_,3306,sql_num_,close_log_);
     std::cout<<"sql_pool Init success!"<<std::endl;
     user_http_connections_[0]->InitMysqlResult(sql_pool_);

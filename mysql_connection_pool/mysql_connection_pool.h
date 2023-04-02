@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <atomic>
+#include <mutex>
 
 #include "../lock/my_semaphore.h"
 
@@ -17,13 +18,17 @@ public:
 	int get_free_connection_num();					 //获取连接
 	void DestroyPool();					 //销毁所有连接
 
-
-    static std::unique_ptr<MysqlConnectionPool> GetInstance(); //获取一个单例
-
     void Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log);
 
 	MysqlConnectionPool();
     ~MysqlConnectionPool();
+
+private:
+	static std::once_flag singleton_flag_; //保证单例只会被构造一次
+	static std::shared_ptr<MysqlConnectionPool> singleton_pool_; //单例指针
+
+public:
+    static std::shared_ptr<MysqlConnectionPool> GetInstance(); //获取一个单例
 
 private:
 

@@ -315,7 +315,7 @@ HttpConnection::HttpCode HttpConnection::ParseRequestLine(std::string_view text)
     url_=url;
     //当url为/时，显示判断界面
     if (url_=="/")
-        url_+="test.html";
+        url_+="judge.html";
 
     check_state_ = CheckState::CHECK_STATE_HEADER; //接下来该处理headers了
 
@@ -384,6 +384,7 @@ HttpConnection::HttpCode HttpConnection::ParseContent(std::string_view text)
 //读入数据后的操作,一行一行地解析
 HttpConnection::HttpCode HttpConnection::ProcessRead()
 {
+    std::cout<<"HttpConnection::ProcessRead()"<<std::endl;
     LineStatus line_status = LineStatus::LINE_OK;
     HttpCode ret = HttpCode::NO_REQUEST;
     std::string_view text;
@@ -392,7 +393,7 @@ HttpConnection::HttpCode HttpConnection::ProcessRead()
     {
         text = GetLine();
         start_line_ = checked_idx_;
-        std::cout<<text<<std::endl;
+
         switch (check_state_)
         {
             case CheckState::CHECK_STATE_REQUESTLINE:
@@ -430,6 +431,7 @@ HttpConnection::HttpCode HttpConnection::ProcessRead()
 
 HttpConnection::HttpCode HttpConnection::DoRequest()
 {
+    std::cout<<"HttpConnection::DoRequest()"<<std::endl;
     real_file_=doc_root_;
     int len = doc_root_.size();
     //printf("m_url:%s\n", m_url);
@@ -529,8 +531,10 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
         real_file_.append(url_);
 
     if (stat(real_file_.c_str(), &file_stat_) < 0)
+    {
+        std::cout<<"real_file_="+real_file_<<std::endl;
         return HttpCode::NO_RESOURCE;
-
+    }    
     if (!(file_stat_.st_mode & S_IROTH))
         return HttpCode::FORBIDDEN_REQUEST;
 
@@ -548,6 +552,7 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
 
 void HttpConnection::Unmap()
 {
+    std::cout<<"HttpConnection::Unmap()"<<std::endl;
     if(!file_address_.empty())
     {
         munmap(file_address_.data(),file_stat_.st_size); //解除内存映射
@@ -557,6 +562,7 @@ void HttpConnection::Unmap()
 
 bool HttpConnection::Write()
 {
+    std::cout<<"HttpConnection::Write()"<<std::endl;
     int temp = 0;
 
     //该发的已经发送完了
@@ -617,6 +623,7 @@ bool HttpConnection::Write()
 
 bool HttpConnection::AddResponse(std::string format,...)
 {
+    std::cout<<"HttpConnection::AddResponse()"<<std::endl;
     if (write_idx_ >= kWriteBufferSize)
         return false;
 
@@ -668,57 +675,84 @@ bool HttpConnection::AddContent(std::string_view content)
 
 bool HttpConnection::ProcessWrite(HttpCode http_code)
 {
+    std::cout<<"HttpConnection::ProcessWrite()"<<std::endl;
     switch (http_code)
     {
-    case HttpCode::INTERNAL_ERROR:
-    {
-        AddStatusLine(500, error_500_title);
-        AddHeaders(error_500_form.size());
-        if (!AddContent(error_500_form))
-            return false;
-        break;
-    }
-    case HttpCode::BAD_REQUEST:
-    {
-        AddStatusLine(404, error_404_title);
-        AddHeaders(error_404_form.size());
-        if (!AddContent(error_404_form))
-            return false;
-        break;
-    }
-    case HttpCode::FORBIDDEN_REQUEST:
-    {
-        AddStatusLine(403, error_403_title);
-        AddHeaders(error_403_form.size());
-        if (!AddContent(error_403_form))
-            return false;
-        break;
-    }
-    case HttpCode::FILE_REQUEST:
-    {
-        AddStatusLine(200, ok_200_title);
-        if (file_stat_.st_size != 0)
+        case HttpCode::INTERNAL_ERROR:
         {
-            AddHeaders(file_stat_.st_size);
-            iovec_[0].iov_base = write_buffer_.data();
-            iovec_[0].iov_len = write_idx_;
-            iovec_[1].iov_base = file_address_.data();
-            iovec_[1].iov_len = file_stat_.st_size;
-            iovec_count_ = 2;
-            bytes_to_send_ = write_idx_ + file_stat_.st_size;
-            return true;
-        }
-        else
-        {
-            const std::string ok_string = "<html><body></body></html>";
-            AddHeaders(ok_string.size());
-            if (!AddContent(ok_string))
+            std::cout<<"INTERNAL_ERROR"<<std::endl;
+            AddStatusLine(500, error_500_title);
+            AddHeaders(error_500_form.size());
+            if (!AddContent(error_500_form))
                 return false;
+            break;
         }
+        case HttpCode::BAD_REQUEST:
+        {
+            std::cout<<"BAD_REQUEST"<<std::endl;
+            AddStatusLine(404, error_404_title);
+            AddHeaders(error_404_form.size());
+            if (!AddContent(error_404_form))
+                return false;
+            break;
+        }
+        case HttpCode::FORBIDDEN_REQUEST:
+        {
+            std::cout<<"FORBIDDEN_REQUEST"<<std::endl;
+            AddStatusLine(403, error_403_title);
+            AddHeaders(error_403_form.size());
+            if (!AddContent(error_403_form))
+                return false;
+            break;
+        }
+        case HttpCode::FILE_REQUEST:
+        {
+            std::cout<<"FILE_REQUEST"<<std::endl;
+            AddStatusLine(200, ok_200_title);
+            if (file_stat_.st_size != 0)
+            {
+                AddHeaders(file_stat_.st_size);
+                iovec_[0].iov_base = write_buffer_.data();
+                iovec_[0].iov_len = write_idx_;
+                iovec_[1].iov_base = file_address_.data();
+                iovec_[1].iov_len = file_stat_.st_size;
+                iovec_count_ = 2;
+                bytes_to_send_ = write_idx_ + file_stat_.st_size;
+                return true;
+            }
+            else
+            {
+                std::cout<<"FILE_REQUEST and file_stat_.st_size == 0"<<std::endl;
+                const std::string ok_string = "<html><body></body></html>";
+                AddHeaders(ok_string.size());
+                if (!AddContent(ok_string))
+                    return false;
+            }
+        }
+        case HttpCode::NO_REQUEST:
+        {
+            std::cout<<"NO_REQUEST"<<std::endl;
+            return false;
+        }
+        case HttpCode::GET_REQUEST:
+        {
+            std::cout<<"GET_REQUEST"<<std::endl;
+            return false;
+        }
+        case HttpCode::NO_RESOURCE:
+        {
+            std::cout<<"NO_RESOURCE"<<std::endl;
+            return false;
+        }
+        case HttpCode::CLOSED_CONNECTION:
+        {
+            std::cout<<"CLOSED_CONNECTION"<<std::endl;
+            return false;
+        }
+        default:
+            return false;
     }
-    default:
-        return false;
-    }
+
     iovec_[0].iov_base = write_buffer_.data();
     iovec_[0].iov_len = write_idx_;
     iovec_count_ = 1;
