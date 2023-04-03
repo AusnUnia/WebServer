@@ -326,6 +326,7 @@ HttpConnection::HttpCode HttpConnection::ParseRequestLine(std::string_view text)
 //解析http请求的一个头部信息
 HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
 {
+    std::cout<<"HttpConnection::ParseHeaders()"<<std::endl;
     if (text[0] == '\0')
     {
         if (content_length_ != 0)
@@ -344,7 +345,7 @@ HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
             linger_ = true; //用户想保持连接，那最后要优雅断开连接
         }
     }
-    else if (text.substr(15)=="Content-length:")
+    else if (text.substr(0,15)=="Content-Length:") //Lenght的L要大写！
     {
         text.remove_prefix(15);
         text.remove_prefix(strspn(text.data(), " \t"));
@@ -355,7 +356,7 @@ HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
             std::cerr<<"could not convert! from_chars() error!"<<std::endl;
         }
     }
-    else if (text.substr(5)=="Host:")
+    else if (text.substr(0,5)=="Host:")
     {
         text.remove_prefix(5);
         text.remove_prefix(strspn(text.data(), " \t"));
@@ -372,6 +373,7 @@ HttpConnection::HttpCode HttpConnection::ParseHeaders(std::string_view text)
 
 HttpConnection::HttpCode HttpConnection::ParseContent(std::string_view text)
 {
+    std::cout<<"HttpConnection::ParseContent()"<<std::endl;
     if(read_idx_>=content_length_+checked_idx_)
     {
         request_header_=text.substr(0,content_length_);
@@ -392,6 +394,7 @@ HttpConnection::HttpCode HttpConnection::ProcessRead()
     while ((check_state_ == CheckState::CHECK_STATE_CONTENT && line_status == LineStatus::LINE_OK) || ((line_status = ParseLine()) == LineStatus::LINE_OK))
     {
         text = GetLine();
+        std::cout<<"text=  "<<text<<std::endl;
         start_line_ = checked_idx_;
 
         switch (check_state_)
@@ -456,6 +459,8 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
         int and_pos=request_header_.find('&');
         account_user=request_header_.substr(0,and_pos);
         account_password=request_header_.substr(and_pos+1,-1);
+        std::cout<<"account_user="<<account_user<<std::endl;
+        std::cout<<"account_password="<<account_password<<std::endl;
 
         if (url_[last_slash_pos+1] == '3') //注册
         {
@@ -467,29 +472,37 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
             sql_insert.append(account_user);
             sql_insert.append("', '");
             sql_insert.append(account_password);
-            sql_insert.append("')");
+            sql_insert.append("');");
 
             if (users.find(account_user) == users.end())
             {
                 int res;
                 {
-                std::lock_guard<std::mutex> guard(users_mutex);
-                res = mysql_query(mysql_.get(), sql_insert.c_str());
-                users.insert(std::pair<std::string, std::string>(account_user, account_password));
+                    std::lock_guard<std::mutex> guard(users_mutex);
+                    res = mysql_query(mysql_.get(), sql_insert.c_str());
+                    users.insert(std::pair<std::string, std::string>(account_user, account_password));
                 }
 
                 if (!res)
+                {
                     url_="/log.html";
+                }
                 else
+                {
                     url_="/registerError.html";
+                }
             }
             else
+            {
                 url_="/registerError.html";
+            }
+
         }
         //如果是登录，直接判断
         //若浏览器端输入的用户名和密码在表中可以查找到，返回1，否则返回0
         else if (url_[last_slash_pos+1] == '3')
         {
+            std::cout<<"登陆！"<<std::endl;
             if (users.find(account_user) != users.end() && users[account_user] == account_password)
                 url_="/welcome.html";
             else
@@ -501,34 +514,42 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
     {
         std::string url_real;
         url_real="/register.html";
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] == '1')
     {
         std::string url_real;
         url_real="/log.html";
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] ==  '5')
     {
         std::string url_real;
         url_real="/picture.html";
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] ==  '6')
     {
         std::string url_real;
         url_real="/video.html";
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
     else if (url_[last_slash_pos+1] ==  '7')
     {
         std::string url_real;
         url_real="/fans.html";
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
     else
+    {
+        real_file_=real_file_.substr(0,len);
         real_file_.append(url_);
+    }
 
     if (stat(real_file_.c_str(), &file_stat_) < 0)
     {

@@ -82,7 +82,7 @@ public:
     int improve_;
 
 
-public://测试改动，要改回private
+private:
     void Init();
     HttpCode ProcessRead();
     bool ProcessWrite(HttpCode ret);
@@ -102,46 +102,6 @@ public://测试改动，要改回private
     bool AddLinger();
     bool AddBlankLine();
 
-
-
-    //////////////////////test/////////////////////////////////////
-public:
-    HttpConnection(int sock):sock_(sock)
-    {
-
-    }
-    std::string header_{"GET"};
-    std::string req_{""};
-    int sock_;
-    /*
-    void Process()
-    {
-        char buf[512];
-
-        FILE* read_stream=fdopen(sock_,"r");
-        FILE* write_stream=fdopen(dup(sock_),"w");
-
-        fgets(buf,512,read_stream);
-        req_=buf;
-        std::cout<<req_<<std::endl;
-
-        FILE* html_file=fopen("./html/test.html","r");
-        if(html_file==nullptr)
-        {
-            std::cout<<"open error!"<<std::endl;
-            return;
-        }
-
-        while(fgets(buf,512,html_file)!=nullptr)
-        {
-            fputs(buf,write_stream);
-            fflush(write_stream);
-        }
-        fflush(write_stream);
-        fclose(write_stream);
-        fclose(read_stream);
-    }*/
-    ////////////////////////////test////////////////////////////////////
 
 public:
     static int epoll_fd_;
