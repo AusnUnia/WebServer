@@ -4,8 +4,6 @@
 
 std::shared_ptr<MYSQL> MysqlConnectionPool::GetConnection()
 {
-	std::cout<<"MysqlConnectionPool::GetConnection()"<<std::endl;
-
 	std::unique_lock<std::mutex> uni_lock(connection_list_mutex_);
 
 	if(connection_list_.size()==0)
@@ -97,7 +95,6 @@ std::shared_ptr<MysqlConnectionPool> MysqlConnectionPool::GetInstance()
 
 void MysqlConnectionPool::Init(std::string url,std::string user,std::string pass_word,std::string db_name,int port,int max_connection_num,int close_log)
 {
-    std::cout<<"MysqlConnectionPool::Init()"<<std::endl;
 	if(max_connection_num<=0)
     {
         std::cout<<"max_connection_num must be larger than 0\n";

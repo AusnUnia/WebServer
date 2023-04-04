@@ -11,8 +11,6 @@ int main(int argc,char* argv[])
     Config config;
     config.ParseArg(argc,argv);
 
-    std::cout<<"ParseArg() success."<<std::endl;
-
 
     Server server;
     server.Init(config.port_, user, passwd, database_name, config.log_write_, 

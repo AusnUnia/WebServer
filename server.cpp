@@ -19,8 +19,6 @@ Server::Server(): user_http_connections_{new std::shared_ptr<HttpConnection>[kMa
     char server_path[200];
     getcwd(server_path, 200);
 
-    std::cout<<server_path<<std::endl;
-
     std::string server_path_str{server_path};
 
     file_root_dir_=server_path_str+"/root";
@@ -224,12 +222,9 @@ void Server::EventLoop()
             //pipe_fd_[0]有读事件表明有系统信号来了,下面处理信号
             else if( (sock_fd==pipe_fd_[0])&&(events_[i].events&EPOLLIN) )
             {
-                std::cout<<"system sig"<<std::endl;
                 bool flag=DealWithSignal(time_out,stop_server); //DealWithSignal将根据pip_fd_[0]中读取的信号决定，是否将time_out,stop_server置为1,从而控制服务器的行动。
                 if (false == flag)
                     std::cout<<"dealclientdata failure"<<std::endl;
-                std::cout<<"stop_server="<<stop_server<<std::endl;
-                std::cout<<"time_out="<<time_out<<std::endl;
             }
             //客户来数据了,处理客户连接收到的数据
             else if(events_[i].events&EPOLLIN)

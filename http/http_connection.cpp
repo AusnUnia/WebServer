@@ -657,7 +657,7 @@ bool HttpConnection::AddResponse(std::string format,...)
     write_idx_ += len;
     va_end(arg_list);
 
-    std::cout<<("request: %s", write_buffer_);
+    std::cout<<"request:"<<write_buffer_<<std::endl;
 
     return true;
 }
@@ -689,6 +689,7 @@ bool HttpConnection::AddBlankLine()
 }
 bool HttpConnection::AddContent(std::string_view content)
 {
+    std::cout<<"HttpConnection::AddContent()"<<std::endl;
     return AddResponse("%s", content);
 }
 
@@ -741,7 +742,6 @@ bool HttpConnection::ProcessWrite(HttpCode http_code)
             }
             else
             {
-                std::cout<<"FILE_REQUEST and file_stat_.st_size == 0"<<std::endl;
                 const std::string ok_string = "<html><body></body></html>";
                 AddHeaders(ok_string.size());
                 if (!AddContent(ok_string))

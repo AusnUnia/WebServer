@@ -62,7 +62,6 @@ bool SortedTimerList::DeleteTimer(std::shared_ptr<Timer> timer)
 
 void SortedTimerList::Tick()
 {
-    std::cout<<"SortedTimerList::Tick()"<<std::endl;
     if(timer_list_.empty())
     {
         return;
@@ -163,7 +162,6 @@ void Utils::AddSignal(int signo,void(handler)(int),bool restart)
 //定时处理任务，重新定时以不断触发SIGALRM信号
 void Utils::TimerHandler()
 {
-    std::cout<<"Utils::TimerHandler()"<<std::endl;
     sorted_timer_list_.Tick(); //删除超时的Timer
     alarm(timer_slot_); //重新开始计时，时间到了又发SIGALRM信号督促sorted_timer_list_更新。
 }
