@@ -437,13 +437,12 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
     std::cout<<"HttpConnection::DoRequest()"<<std::endl;
     real_file_=doc_root_;
     int len = doc_root_.size();
-    //printf("m_url:%s\n", m_url);
     int last_slash_pos = url_.rfind('/');
+
 
     //处理cgi
     if (cgi_ == 1 && (url_[last_slash_pos+1] == '2' || url_[last_slash_pos+1] == '3'))
     {
-
         //根据标志判断是登录检测还是注册检测
         char flag =url_[1];
 
@@ -456,9 +455,9 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
         //user=123&passwd=123
         std::string account_user;
         std::string account_password;
-        int and_pos=request_header_.find('&');
-        account_user=request_header_.substr(0,and_pos);
-        account_password=request_header_.substr(and_pos+1,-1);
+        int and_pos=request_header_.find('&'); //request_header_形式为user=xxxx&password=xxxxx，x代表用户名或密码
+        account_user=request_header_.substr(5,and_pos-5); 
+        account_password=request_header_.substr(and_pos+1+9,-1);
         std::cout<<"account_user="<<account_user<<std::endl;
         std::cout<<"account_password="<<account_password<<std::endl;
 
@@ -500,9 +499,8 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
         }
         //如果是登录，直接判断
         //若浏览器端输入的用户名和密码在表中可以查找到，返回1，否则返回0
-        else if (url_[last_slash_pos+1] == '3')
+        else if (url_[last_slash_pos+1] == '2')
         {
-            std::cout<<"登陆！"<<std::endl;
             if (users.find(account_user) != users.end() && users[account_user] == account_password)
                 url_="/welcome.html";
             else
@@ -524,14 +522,14 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
         real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
-    else if (url_[last_slash_pos+1] ==  '5')
+    else if (url_[last_slash_pos+1] == '5')
     {
         std::string url_real;
         url_real="/picture.html";
         real_file_=real_file_.substr(0,len);
         real_file_.append(url_real);
     }
-    else if (url_[last_slash_pos+1] ==  '6')
+    else if (url_[last_slash_pos+1] == '6')
     {
         std::string url_real;
         url_real="/video.html";
