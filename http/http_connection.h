@@ -130,7 +130,7 @@ public://测试改动，要改回private
     std::string host_;
     int content_length_;
     bool linger_;
-    std::string file_address_; //文件映射到进程空间的地址
+    char* file_address_; //文件映射到进程空间的首地址,不能用string来管理,string最长2147483647不一定能装下大文件
     struct stat file_stat_;
     struct iovec iovec_[2];
     int iovec_count_;

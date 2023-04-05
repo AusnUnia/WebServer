@@ -572,10 +572,10 @@ HttpConnection::HttpCode HttpConnection::DoRequest()
 void HttpConnection::Unmap()
 {
     std::cout<<"HttpConnection::Unmap()"<<std::endl;
-    if(!file_address_.empty())
+    if(file_address_)
     {
-        munmap(file_address_.data(),file_stat_.st_size); //解除内存映射
-        file_address_.clear();
+        munmap(file_address_,file_stat_.st_size); //解除内存映射
+        file_address_=nullptr;
     }
 }
 
@@ -595,11 +595,14 @@ bool HttpConnection::Write()
     while (1)
     {
         temp = writev(sock_fd_, iovec_, iovec_count_);
-
+        std::cout<<"writev() return :temp="<<temp<<std::endl;
+        std::cout<<"file_address_:"<<file_address_<<std::endl;
         if (temp < 0)
         {
+            std::cout<<"errno="<<errno<<std::endl;
             if (errno == EAGAIN)
             {
+                std::cout<<"errno==EAGAIN"<<std::endl;
                 ModFd(epoll_fd_, sock_fd_, EPOLLOUT, trig_mode_);
                 return true;
             }
@@ -610,10 +613,10 @@ bool HttpConnection::Write()
         bytes_have_send_ += temp;
         bytes_to_send_ -= temp;
 
-        if (bytes_have_send_ >= iovec_[0].iov_len)
+        if (bytes_have_send_ >= iovec_[0].iov_len) //iovc_[0]里的数据（header数据）已经发送完了
         {
             iovec_[0].iov_len = 0;
-            iovec_[1].iov_base = file_address_.data() + (bytes_have_send_ - write_idx_);
+            iovec_[1].iov_base = file_address_ + (bytes_have_send_ - write_idx_);
             iovec_[1].iov_len = bytes_to_send_;
         }
         else
@@ -734,10 +737,10 @@ bool HttpConnection::ProcessWrite(HttpCode http_code)
                 AddHeaders(file_stat_.st_size);
                 iovec_[0].iov_base = write_buffer_.data();
                 iovec_[0].iov_len = write_idx_;
-                iovec_[1].iov_base = file_address_.data();
+                iovec_[1].iov_base = file_address_;
                 iovec_[1].iov_len = file_stat_.st_size;
                 iovec_count_ = 2;
-                bytes_to_send_ = write_idx_ + file_stat_.st_size;
+                bytes_to_send_ = write_idx_ + file_stat_.st_size; //write_idx_是header的长度，file_stat_.st_size是发送的文件的长度
                 return true;
             }
             else
