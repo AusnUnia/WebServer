@@ -65,6 +65,12 @@
         "timer": "cpp",
         "future": "cpp",
         "cinttypes": "cpp",
-        "charconv": "cpp"
+        "charconv": "cpp",
+        "bitset": "cpp",
+        "complex": "cpp",
+        "set": "cpp",
+        "optional": "cpp",
+        "typeindex": "cpp",
+        "variant": "cpp"
     }
 }
