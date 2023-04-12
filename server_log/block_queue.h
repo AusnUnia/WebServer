@@ -126,6 +126,12 @@ public:
         return true;
     }
 
+    void resize(int new_max_size)
+    {
+        std::unique_lock<std::mutex> uni_lock(mutex_);
+        max_size_=new_max_size;
+    }
+
 private:
     std::condition_variable cond_;
     std::mutex mutex_;
