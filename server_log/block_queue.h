@@ -12,7 +12,7 @@ template <class T>
 class BlockQueue final
 {
 public:
-    BlockQueue(int max_size = 1000):max_size_ {max_size},std_queue(max_size+24)
+    BlockQueue(int max_size = 1000):max_size_ {max_size}
     {
         if (max_size <= 0)
         {
@@ -36,7 +36,7 @@ public:
     bool full() 
     {
         std::unique_lock<std::mutex> uni_lock(mutex_);
-        if (std_queue.size() >=max_size)
+        if (std_queue.size() >=max_size_)
         {
             return true;
         }
@@ -56,7 +56,7 @@ public:
         if (std_queue.empty())
         {
             std::cerr<<"BlockQueue is empty!"<<std::endl;
-            return nullptr;
+            return std_queue.front();
         }
         return std_queue.front();
     }
@@ -67,7 +67,7 @@ public:
         if (std_queue.empty())
         {
             std::cerr<<"BlockQueue is empty!"<<std::endl;
-            return nullptr;
+            return std_queue.front();
         }
         return std_queue.front();
     }
@@ -105,7 +105,7 @@ public:
     bool pop()
     {
         std::unique_lock<std::mutex> uni_lock(mutex_);
-        cond_.wait(uni_lock,[&std_queue]{return !std_queue.empty();});
+        cond_.wait(uni_lock,[this]{return !this->std_queue.empty();});
 
         std_queue.pop();
         return true;
@@ -116,7 +116,7 @@ public:
     {
         std::chrono::microseconds time_span(ms_timeout);
         std::unique_lock<std::mutex> uni_lock(mutex_);
-        cond_.wait_for(uni_lock,time_span,[&std_queue]{return !std_queue.empty();});
+        cond_.wait_for(uni_lock,time_span,[this]{return !this->std_queue.empty();});
         if(std_queue.empty())
         {
             return false;
@@ -139,7 +139,6 @@ private:
 
     int max_size_;
 };
-
 
 
 #endif

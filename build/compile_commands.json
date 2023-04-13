@@ -1,32 +1,37 @@
 [
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/test.cpp.o -c /home/ausn/Desktop/Server/test.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/test.cpp.o -c /home/ausn/Desktop/Server/test.cpp",
   "file": "/home/ausn/Desktop/Server/test.cpp"
 },
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o -c /home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o -c /home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.cpp",
   "file": "/home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.cpp"
 },
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/timer/timer.cpp.o -c /home/ausn/Desktop/Server/timer/timer.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/timer/timer.cpp.o -c /home/ausn/Desktop/Server/timer/timer.cpp",
   "file": "/home/ausn/Desktop/Server/timer/timer.cpp"
 },
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/http/http_connection.cpp.o -c /home/ausn/Desktop/Server/http/http_connection.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/http/http_connection.cpp.o -c /home/ausn/Desktop/Server/http/http_connection.cpp",
   "file": "/home/ausn/Desktop/Server/http/http_connection.cpp"
 },
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/server.cpp.o -c /home/ausn/Desktop/Server/server.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/server.cpp.o -c /home/ausn/Desktop/Server/server.cpp",
   "file": "/home/ausn/Desktop/Server/server.cpp"
 },
 {
   "directory": "/home/ausn/Desktop/Server/build",
-  "command": "/usr/bin/g++   -g -o CMakeFiles/test.dir/config.cpp.o -c /home/ausn/Desktop/Server/config.cpp",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/config.cpp.o -c /home/ausn/Desktop/Server/config.cpp",
   "file": "/home/ausn/Desktop/Server/config.cpp"
+},
+{
+  "directory": "/home/ausn/Desktop/Server/build",
+  "command": "/usr/bin/g++    -O0 -Wall -g2 -ggdb -o CMakeFiles/test.dir/server_log/server_log.cpp.o -c /home/ausn/Desktop/Server/server_log/server_log.cpp",
+  "file": "/home/ausn/Desktop/Server/server_log/server_log.cpp"
 }
 ]

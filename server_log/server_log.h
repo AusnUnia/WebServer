@@ -21,7 +21,7 @@ public:
         std::call_once
         (
             singleton_flag_,
-            [&]
+            []
             {
                 singleton_log_=std::make_shared<ServerLog>();
             }
@@ -29,21 +29,24 @@ public:
         return singleton_log_;
     }
 
-    static void *FlushLogThreadEntry(void *args)
+    static void FlushLogThreadEntry()
     {
         ServerLog::GetInstance()->AsyncWriteLog();
     }
 
     bool Init(std::string file_name, int close_log, int log_buffer_size = 8192, int max_split_lines = 5000000, int max_queue_size = 0);
 
-    void WriteLog(int level, const char *format, ...);
+    void WriteLog(int level, std::string format, ...);
 
     void Flush(void);
 
-private:
     ServerLog();
+
     virtual ~ServerLog();
-    void *AsyncWriteLog()
+    
+
+private:
+    [[noreturn]] void *AsyncWriteLog()
     {
         std::string single_log;
         //从阻塞队列中取出一个日志string，写入文件
@@ -63,7 +66,7 @@ private:
 private:
     std::string dir_name_; //路径名
     std::string log_name_; //log文件名
-    int max_split_lines;  //日志最大行数
+    int max_split_lines_;  //日志最大行数
     int log_buffer_size_; //日志缓冲区大小
     long long line_count_{0};  //日志行数记录
     int today_;        //因为按天分类,记录当前时间是那一天

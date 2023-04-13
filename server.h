@@ -12,6 +12,7 @@
 #include "./http/http_connection.h"
 #include "./mysql_connection_pool/mysql_connection_pool.h"
 #include "./timer/timer.h"
+#include "./server_log/server_log.h"
 
 
 const int kMaxFd = 65536;           //最大文件描述符
@@ -31,7 +32,7 @@ public:
 
     void ThreadPoolInit();
     void SqlPool();
-    void LogWrite();
+    void LogInit();
     void TrigMode();
     void EventListen();
     void EventLoop();

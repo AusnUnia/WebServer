@@ -86,9 +86,16 @@ void Server::TrigMode()
     }
 }
 
-void Server::LogWrite()
+void Server::LogInit()
 {
-
+    if (0 == close_log_)
+    {
+        //初始化日志
+        if (1 == log_write_)
+            ServerLog::GetInstance()->Init("./ServerLog", close_log_, 2000, 800000, 800);
+        else
+            ServerLog::GetInstance()->Init("./ServerLog", close_log_, 2000, 800000, 0);
+    }
 }
 
 void Server::SqlPool()
@@ -429,6 +436,8 @@ void Server::AdjustTimer(std::shared_ptr<Timer> timer)
     time_t now=time(nullptr);
     timer->expire_=now+3*kTimeSlot;
     utils_.sorted_timer_list_.AdjustTimer(timer);
+
+    LOG_INFO("{s}", "adjust timer once");
 }
 
 void Server::DealWithWrite(int sock_fd)

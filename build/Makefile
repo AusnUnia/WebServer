@@ -225,6 +225,30 @@ server.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server.cpp.s
 .PHONY : server.cpp.s
 
+server_log/server_log.o: server_log/server_log.cpp.o
+.PHONY : server_log/server_log.o
+
+# target to build an object file
+server_log/server_log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server_log/server_log.cpp.o
+.PHONY : server_log/server_log.cpp.o
+
+server_log/server_log.i: server_log/server_log.cpp.i
+.PHONY : server_log/server_log.i
+
+# target to preprocess a source file
+server_log/server_log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server_log/server_log.cpp.i
+.PHONY : server_log/server_log.cpp.i
+
+server_log/server_log.s: server_log/server_log.cpp.s
+.PHONY : server_log/server_log.s
+
+# target to generate assembly for a file
+server_log/server_log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/server_log/server_log.cpp.s
+.PHONY : server_log/server_log.cpp.s
+
 test.o: test.cpp.o
 .PHONY : test.o
 
@@ -294,6 +318,9 @@ help:
 	@echo "... server.o"
 	@echo "... server.i"
 	@echo "... server.s"
+	@echo "... server_log/server_log.o"
+	@echo "... server_log/server_log.i"
+	@echo "... server_log/server_log.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

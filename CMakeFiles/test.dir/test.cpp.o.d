@@ -236,4 +236,13 @@ CMakeFiles/test.dir/test.cpp.o: /home/ausn/Desktop/Server/test.cpp \
  /usr/include/arpa/inet.h \
  /home/ausn/Desktop/Server/./mysql_connection_pool/mysql_connection_pool.h \
  /home/ausn/Desktop/Server/./timer/timer.h \
- /home/ausn/Desktop/Server/config.h
+ /home/ausn/Desktop/Server/./server_log/server_log.h \
+ /usr/include/c++/12/fstream /usr/include/c++/12/bits/codecvt.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
+ /usr/include/c++/12/bits/fstream.tcc \
+ /home/ausn/Desktop/Server/./server_log/./block_queue.h \
+ /usr/include/c++/12/queue /usr/include/c++/12/deque \
+ /usr/include/c++/12/bits/stl_deque.h /usr/include/c++/12/bits/deque.tcc \
+ /usr/include/c++/12/bits/stl_heap.h /usr/include/c++/12/bits/stl_queue.h \
+ /usr/include/c++/12/chrono /home/ausn/Desktop/Server/config.h

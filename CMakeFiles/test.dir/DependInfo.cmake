@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ausn/Desktop/Server/http/http_connection.cpp" "CMakeFiles/test.dir/http/http_connection.cpp.o" "gcc" "CMakeFiles/test.dir/http/http_connection.cpp.o.d"
   "/home/ausn/Desktop/Server/mysql_connection_pool/mysql_connection_pool.cpp" "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o" "gcc" "CMakeFiles/test.dir/mysql_connection_pool/mysql_connection_pool.cpp.o.d"
   "/home/ausn/Desktop/Server/server.cpp" "CMakeFiles/test.dir/server.cpp.o" "gcc" "CMakeFiles/test.dir/server.cpp.o.d"
+  "/home/ausn/Desktop/Server/server_log/server_log.cpp" "CMakeFiles/test.dir/server_log/server_log.cpp.o" "gcc" "CMakeFiles/test.dir/server_log/server_log.cpp.o.d"
   "/home/ausn/Desktop/Server/test.cpp" "CMakeFiles/test.dir/test.cpp.o" "gcc" "CMakeFiles/test.dir/test.cpp.o.d"
   "/home/ausn/Desktop/Server/timer/timer.cpp" "CMakeFiles/test.dir/timer/timer.cpp.o" "gcc" "CMakeFiles/test.dir/timer/timer.cpp.o.d"
   )

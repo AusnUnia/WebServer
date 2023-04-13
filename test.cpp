@@ -11,7 +11,6 @@ int main(int argc,char* argv[])
     Config config;
     config.ParseArg(argc,argv);
 
-
     Server server;
     server.Init(config.port_, user, passwd, database_name, config.log_write_, 
             config.opt_linger_, config.trig_mode_,  config.sql_num_,  config.thread_num_, 
@@ -19,9 +18,9 @@ int main(int argc,char* argv[])
 
     std::cout<<"server.Init() success."<<std::endl;
 
-    server.LogWrite();
+    server.LogInit();
 
-    std::cout<<"server.LogWrite() success."<<std::endl;
+    std::cout<<"server.LogInit() success."<<std::endl;
 
     server.SqlPool();
 
